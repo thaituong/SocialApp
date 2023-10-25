@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +50,7 @@ public class AddFragment extends Fragment {
     private EditText etContent;
     private ViewPager vpImgPost;
     private Button btPost;
+    Boolean check=false;
     private ProgressDialog progressDialog;
     ImagePagerAdapter adapter;
     List<Uri> imageUris = new ArrayList<>();
@@ -78,6 +81,29 @@ public class AddFragment extends Fragment {
             public void onClick(View view) {
                 callApiLoadPost();
             }
+        });
+
+        etContent.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Không cần thực hiện gì ở đây
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Kiểm tra khi nào nên hiển thị nút
+                if (s.toString().trim().isEmpty()) {
+                    btPost.setVisibility(View.GONE);
+                } else {
+                    btPost.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+
         });
         return view;
     }
@@ -143,6 +169,7 @@ public class AddFragment extends Fragment {
             Uri selectedImageUri = data.getData();
             imageUris.add(selectedImageUri);
             adapter.notifyDataSetChanged();
+            btPost.setVisibility(View.VISIBLE);
         }
     }
 }

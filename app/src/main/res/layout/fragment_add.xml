@@ -22,15 +22,6 @@
             android:textSize="30sp"
             android:textStyle="bold"></TextView>
 
-        <ImageView
-            android:id="@+id/ivCloseNewPost"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/back"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp">
-        </ImageView>
 
         <Button
             android:id="@+id/btPost"
@@ -43,7 +34,8 @@
             android:src="@drawable/bell"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp">
+            android:layout_marginRight="10dp"
+            android:visibility="gone">
         </Button>
     </RelativeLayout>
     <RelativeLayout
