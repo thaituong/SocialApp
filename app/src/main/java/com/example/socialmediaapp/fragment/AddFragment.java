@@ -46,6 +46,7 @@ import retrofit2.Response;
 public class AddFragment extends Fragment {
     private static final int MY_REQUEST_CODE = 10;
     private static final int PERMISSION_REQUEST_CODE = 123;
+    private MainActivity mMainActivity;
     private ImageView ivAddImg;
     private EditText etContent;
     private ViewPager vpImgPost;
@@ -142,6 +143,7 @@ public class AddFragment extends Fragment {
                 progressDialog.dismiss();
                 ResponseDTO message=response.body();
                 Toast.makeText(getActivity(),"Đăng thành công",Toast.LENGTH_LONG).show();
+                ((MainActivity) requireActivity()).goToHomeFragment();
             }
 
             @Override

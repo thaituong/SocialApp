@@ -36,7 +36,7 @@ public class HomeFragment extends Fragment {
     private ArrayList<String> listimg;
     private ItemAdapter mitemAdapter;
     private MainActivity mMainActivity;
-    private PostAdapter postAdapter;
+    public PostAdapter postAdapter;
     private ImageView idClickTest;
     private ResponseDTO litsp;
     public static int[] imgpos;

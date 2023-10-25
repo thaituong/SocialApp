@@ -8,8 +8,11 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
+import com.example.socialmediaapp.fragment.HomeFragment;
+
 
 import com.example.socialmediaapp.R;
 import com.example.socialmediaapp.adapter.ViewPagerAdapter;
@@ -19,6 +22,7 @@ import com.example.socialmediaapp.dto.ResponseDTO;
 import com.example.socialmediaapp.dto.ResultDTO;
 import com.example.socialmediaapp.fragment.CommentFragment;
 import com.example.socialmediaapp.fragment.ConversationFragment;
+import com.example.socialmediaapp.fragment.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import retrofit2.Call;
@@ -31,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager2 viewPager;
     private ResultDTO resultDTO;
     private BottomNavigationView bottomNavigationView;
+    ViewPagerAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager=findViewById(R.id.viewPager);
         bottomNavigationView=findViewById(R.id.bottomNavigation);
 
-        ViewPagerAdapter adapter=new ViewPagerAdapter(this);
+        adapter=new ViewPagerAdapter(this);
         viewPager.setAdapter(adapter);
         viewPager.setUserInputEnabled(false);
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback(){
@@ -131,4 +136,15 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.addToBackStack(ConversationFragment.TAG);
         fragmentTransaction.commit();
     }
+
+    public void goToHomeFragment() {
+//        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//        HomeFragment homeFragment = new HomeFragment();
+//        fragmentTransaction.replace(R.id.pagerLayout, homeFragment);
+//        fragmentTransaction.addToBackStack(HomeFragment.TAG);
+//        fragmentTransaction.commit();
+        adapter.notifyItemChanged(0);
+        viewPager.setCurrentItem(0);
+    }
+
 }
