@@ -12,6 +12,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +49,7 @@ public class ConversationFragment extends Fragment {
     private static final int MY_REQUEST_CODE = 10;
     private static final int PERMISSION_REQUEST_CODE = 123;
     private CircleImageView civUserAvatar;
+    private MainActivity mMainActivity;
     private ConversationAdapter conversationAdapter;
     private ListView lvConversation;
     private ResponseDTO litsp;
@@ -85,7 +88,28 @@ public class ConversationFragment extends Fragment {
                 getFragmentManager().popBackStack();
             }
         });
+        etContent.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Không cần thực hiện gì ở đây
+            }
 
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Kiểm tra khi nào nên hiển thị nút
+                if (s.toString().trim().isEmpty()) {
+                    ivMessSend.setVisibility(View.GONE);
+                } else {
+                    ivMessSend.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+
+        });
         ivMessSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,6 +122,9 @@ public class ConversationFragment extends Fragment {
                         public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
                             ResponseDTO message=response.body();
                             Toast.makeText(getActivity(),"Đã gửi",Toast.LENGTH_LONG).show();
+                            MessageDTO m=new MessageDTO(etContent.getText().toString());
+                            messageDTOList.add(m);
+                            conversationAdapter.notifyDataSetChanged();
                             etContent.setText("");
                         }
 
@@ -127,10 +154,7 @@ public class ConversationFragment extends Fragment {
                 }
                 conversationAdapter=new ConversationAdapter(getContext(),messageDTOList);
                 lvConversation.setAdapter(conversationAdapter);
-                lvConversation.smoothScrollToPosition(0);
-
             }
-
             @Override
             public void onFailure(Call<ResponseDTO> call, Throwable t) {
                 Toast.makeText(getActivity(),"Call Api Error"+t.getMessage(),Toast.LENGTH_LONG).show();
@@ -192,7 +216,7 @@ public class ConversationFragment extends Fragment {
                     messageDTOList.add(0,litsp.getResult().getMesseges().get(i));
                 }
                 conversationAdapter=new ConversationAdapter(getContext(),messageDTOList);
-                lvConversation.setAdapter(conversationAdapter);
+                conversationAdapter.notifyDataSetChanged();
             }
 
             @Override
