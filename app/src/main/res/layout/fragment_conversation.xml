@@ -65,15 +65,14 @@
             android:layout_height="2dp"
             android:background="#9E9E9E" />
     </LinearLayout>
-    <ListView
-        android:id="@+id/lvConversation"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvConversation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/header_title"
         android:layout_above="@+id/rlSendMessage"
         android:divider="@android:color/transparent"
-        android:dividerHeight="5dp"
-        android:transcriptMode="alwaysScroll"></ListView>
+        android:dividerHeight="5dp"></androidx.recyclerview.widget.RecyclerView>
     <RelativeLayout
         android:id="@+id/rlSendMessage"
         android:layout_width="match_parent"

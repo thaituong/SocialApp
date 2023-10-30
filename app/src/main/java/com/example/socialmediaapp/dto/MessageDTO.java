@@ -23,9 +23,7 @@ public class MessageDTO implements Serializable {
         this.IS_SEND_USER = IS_SEND_USER;
     }
 
-    public MessageDTO(String CONTENT) {
-        this.CONTENT = CONTENT;
-    }
+
 
     public String getID() {
         return ID;

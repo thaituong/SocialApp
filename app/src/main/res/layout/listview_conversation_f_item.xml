@@ -1,10 +1,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true">
+            android:orientation="vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="5dp"
+            android:id="@+id/llText">
                 <TextView
                     android:id="@+id/tvTinNhanShop"
                     android:layout_width="wrap_content"
@@ -17,5 +20,18 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="65dp"></TextView>
         </LinearLayout>
-
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="5dp"
+            android:layout_below="@+id/llText">
+                <ImageView
+                    android:id="@+id/ivTinNhanShop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    ></ImageView>
+        </LinearLayout>
 </RelativeLayout>

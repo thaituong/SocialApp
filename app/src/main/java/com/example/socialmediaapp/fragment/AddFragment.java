@@ -143,6 +143,9 @@ public class AddFragment extends Fragment {
                 progressDialog.dismiss();
                 ResponseDTO message=response.body();
                 Toast.makeText(getActivity(),"Đăng thành công",Toast.LENGTH_LONG).show();
+                imageUris.clear();
+                adapter.notifyDataSetChanged();
+                etContent.setText("");
                 ((MainActivity) requireActivity()).goToHomeFragment();
             }
 

@@ -32,7 +32,6 @@ public class CommentFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.rvComment);
         closeComment = (ImageView) view.findViewById(R.id.ivCloseComment);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-
         Bundle bundleReceive=getArguments();
         ResponseDTO itemPostDTO= (ResponseDTO) bundleReceive.get("repcomment");
         commentAdapter = new CommentAdapter((ArrayList<CommentDTO>) itemPostDTO.getResult().getComments(),getContext());

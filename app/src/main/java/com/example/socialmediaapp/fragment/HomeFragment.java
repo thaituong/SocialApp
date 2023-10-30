@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.socialmediaapp.SocketManager;
 import com.example.socialmediaapp.activity.MainActivity;
 import com.example.socialmediaapp.R;
 import com.example.socialmediaapp.adapter.ItemAdapter;
@@ -22,6 +23,10 @@ import com.example.socialmediaapp.dto.ItemStoryDTO;
 import com.example.socialmediaapp.dto.NewFeedDTO;
 import com.example.socialmediaapp.dto.ResponseDTO;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import io.socket.emitter.Emitter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,6 +58,7 @@ public class HomeFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         idClickTest = (ImageView) view.findViewById(R.id.idClickTest);
         list_view_post=(ListView) view.findViewById(R.id.list_view_post);
+        SocketManager.connect();
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         imgpos=new int[100];
         for (int i = 0; i < imgpos.length; i++) {
@@ -82,8 +88,10 @@ public class HomeFragment extends Fragment {
                 Log.d("API Response", "Giá trị litsp: " + t.getMessage());
             }
         });
+
         return view;
     }
+
 
     private void data(){
         listitem.add(new ItemStoryDTO("Hồng ngọc",R.drawable.avtbabe));
@@ -95,5 +103,7 @@ public class HomeFragment extends Fragment {
         listitem.add(new ItemStoryDTO("Hồng ngọc",R.drawable.avtbabe));
         listitem.add(new ItemStoryDTO("Hồng ngọc",R.drawable.avtbabe));
     }
+
+
 
 }

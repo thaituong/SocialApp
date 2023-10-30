@@ -4,68 +4,108 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.example.socialmediaapp.R;
 import com.example.socialmediaapp.dto.MessageDTO;
 
 import java.util.List;
 
-public class ConversationAdapter extends BaseAdapter {
+public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final int VIEW_TYPE_USER = 1;
+    private static final int VIEW_TYPE_OTHER = 2;
+
     private List<MessageDTO> listData;
-    private LayoutInflater layoutInflater;
     private Context context;
-    public ConversationAdapter(Context aContext,  List<MessageDTO> listData) {
-        this.context = aContext;
+
+    public ConversationAdapter(Context context, List<MessageDTO> listData) {
+        this.context = context;
         this.listData = listData;
-        layoutInflater = LayoutInflater.from(aContext);
     }
+
     @Override
-    public int getCount() {
+    public int getItemViewType(int position) {
+        if (listData.get(position).getIS_SEND_USER() == 1) {
+            return VIEW_TYPE_USER;
+        } else {
+            return VIEW_TYPE_OTHER;
+        }
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view;
+        if (viewType == VIEW_TYPE_USER) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.listview_conversation_c_item, parent, false);
+            return new UserViewHolder(view);
+        } else {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.listview_conversation_f_item, parent, false);
+            return new OtherViewHolder(view);
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        MessageDTO message = listData.get(position);
+        if(message.getTYPE().equalsIgnoreCase("text")){
+            if (holder instanceof UserViewHolder) {
+                UserViewHolder userViewHolder = (UserViewHolder) holder;
+                userViewHolder.tinnhan.setText(message.getCONTENT());
+            } else if (holder instanceof OtherViewHolder) {
+                OtherViewHolder otherViewHolder = (OtherViewHolder) holder;
+                otherViewHolder.tinnhan.setText(message.getCONTENT());
+            }
+        }else{
+            if (holder instanceof UserViewHolder) {
+                UserViewHolder userViewHolder = (UserViewHolder) holder;
+                userViewHolder.tinnhan.setVisibility(View.GONE);
+                ViewGroup.LayoutParams params = userViewHolder.img.getLayoutParams();
+                params.width = 600;
+                params.height = 600;
+                userViewHolder.img.setLayoutParams(params);
+                Glide.with(context).load(message.getCONTENT()).into(userViewHolder.img);
+
+            } else if (holder instanceof OtherViewHolder) {
+                OtherViewHolder otherViewHolder = (OtherViewHolder) holder;
+                otherViewHolder.tinnhan.setVisibility(View.GONE);
+                ViewGroup.LayoutParams params = otherViewHolder.img.getLayoutParams();
+                params.width = 600;
+                params.height = 600;
+                otherViewHolder.img.setLayoutParams(params);
+                Glide.with(context).load(message.getCONTENT()).into(otherViewHolder.img);
+            }
+        }
+
+    }
+
+    @Override
+    public int getItemCount() {
         return listData.size();
     }
 
-    @Override
-    public Object getItem(int i) {
-        return listData.get(i);
-    }
-
-    @Override
-    public long getItemId(int i) {
-        return i;
-    }
-
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        ConversationAdapter.ViewHolder holder;
-        MessageDTO tn = this.listData.get(i);
-        if (tn.getIS_SEND_USER() == 1) {
-            if (view == null) {
-                view = layoutInflater.inflate(R.layout.listview_conversation_c_item, null);
-                holder = new ConversationAdapter.ViewHolder();
-                holder.tinnhan = (TextView) view.findViewById(R.id.tvTinNhanKhach);
-                view.setTag(holder);
-            } else {
-                holder = (ConversationAdapter.ViewHolder) view.getTag();
-            }
-            holder.tinnhan.setText(tn.getCONTENT());
-        } else {
-            if (view == null) {
-                view = layoutInflater.inflate(R.layout.listview_conversation_f_item, null);
-                holder = new ConversationAdapter.ViewHolder();
-                holder.tinnhan = (TextView) view.findViewById(R.id.tvTinNhanShop);
-                view.setTag(holder);
-            } else {
-                holder = (ConversationAdapter.ViewHolder) view.getTag();
-
-            }
-            holder.tinnhan.setText(tn.getCONTENT());
-        }
-
-        return view;
-    }
-    static class ViewHolder {
+    private static class UserViewHolder extends RecyclerView.ViewHolder {
         TextView tinnhan;
+        ImageView img;
+
+        UserViewHolder(View itemView) {
+            super(itemView);
+            tinnhan = itemView.findViewById(R.id.tvTinNhanKhach);
+            img = itemView.findViewById(R.id.ivTinNhanKhach);
+        }
+    }
+
+    private static class OtherViewHolder extends RecyclerView.ViewHolder {
+        TextView tinnhan;
+        ImageView img;
+
+        OtherViewHolder(View itemView) {
+            super(itemView);
+            tinnhan = itemView.findViewById(R.id.tvTinNhanShop);
+            img = itemView.findViewById(R.id.ivTinNhanShop);
+        }
     }
 }
