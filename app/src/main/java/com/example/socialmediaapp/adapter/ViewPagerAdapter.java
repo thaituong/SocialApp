@@ -9,7 +9,7 @@ import com.example.socialmediaapp.fragment.AddFragment;
 import com.example.socialmediaapp.fragment.HomeFragment;
 import com.example.socialmediaapp.fragment.MessageFragment;
 import com.example.socialmediaapp.fragment.SearchFragment;
-import com.example.socialmediaapp.fragment.SettingFragment;
+import com.example.socialmediaapp.fragment.ProfileFragment;
 
 public class ViewPagerAdapter extends FragmentStateAdapter {
     public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
@@ -30,7 +30,7 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
             case 3:
                 return new MessageFragment();
             case 4:
-                return new SettingFragment();
+                return new ProfileFragment();
             default:
                 return new HomeFragment();
         }

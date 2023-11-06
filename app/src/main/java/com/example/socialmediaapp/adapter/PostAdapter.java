@@ -8,32 +8,45 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
+import com.example.socialmediaapp.activity.MainActivity;
+import com.example.socialmediaapp.api.ApiService;
+import com.example.socialmediaapp.dto.ResponseDTO;
 import com.example.socialmediaapp.fragment.HomeFragment;
 import com.example.socialmediaapp.R;
 import com.example.socialmediaapp.dto.NewFeedDTO;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PostAdapter extends BaseAdapter {
     private LayoutInflater layoutInflater;
     private List<NewFeedDTO> listData;
     private IClickItemListener iClickItemListener;
+    private iClickItemListenerSetting iClickItemListenerSetting;
     public interface IClickItemListener{
         void onClickItemUser(NewFeedDTO itemPostDTO);
     }
+    public interface iClickItemListenerSetting{
+        void onClickItemSetting(NewFeedDTO itemPostDTO);
+    }
     private Context context;
     private PhotoAdapter photoAdapter;
-    public PostAdapter(Context aContext, List<NewFeedDTO> listData, IClickItemListener listener) {
+    public PostAdapter(Context aContext, List<NewFeedDTO> listData, IClickItemListener listener, iClickItemListenerSetting listenerSetting) {
         this.context = aContext;
         this.listData=listData;
         layoutInflater = LayoutInflater.from(aContext);
         this.iClickItemListener=listener;
+        this.iClickItemListenerSetting=listenerSetting;
     }
     @Override
     public int getCount() {
@@ -65,7 +78,7 @@ public class PostAdapter extends BaseAdapter {
             holder.ivChat = (ImageView) view.findViewById(R.id.ivChat);
             holder.tvSLHeart = (TextView) view.findViewById(R.id.tvSLHeart);
             holder.tvSLComment = (TextView) view.findViewById(R.id.tvSLComment);
-
+            holder.ivEditPost = (ImageView) view.findViewById(R.id.ivEditPost);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
@@ -95,11 +108,33 @@ public class PostAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 if (itemPostDTO.getISLIKED().equalsIgnoreCase("0")){
+                    ApiService.apiService.postLike(itemPostDTO.getID(),MainActivity.accessToken).enqueue(new Callback<ResponseDTO>() {
+                        @Override
+                        public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
+                            ResponseDTO message = response.body();
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseDTO> call, Throwable t) {
+                            Toast.makeText(context, "Like thất bại" + t.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
                     holder.ivHeart.setImageResource(R.drawable.redheart);
                     itemPostDTO.setISLIKED("1");
                     holder.tvSLHeart.setText(Integer.parseInt(itemPostDTO.getLIKES())+1+" Likes");
                     itemPostDTO.setLIKES(Integer.parseInt(itemPostDTO.getLIKES())+1+"");
                 }else {
+                    ApiService.apiService.postUnLike(itemPostDTO.getID(),MainActivity.accessToken).enqueue(new Callback<ResponseDTO>() {
+                        @Override
+                        public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
+                            ResponseDTO message = response.body();
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseDTO> call, Throwable t) {
+                            Toast.makeText(context, "Un Like thất bại" + t.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
                     holder.ivHeart.setImageResource(R.drawable.heart);
                     itemPostDTO.setISLIKED("0");
                     holder.tvSLHeart.setText(Integer.parseInt(itemPostDTO.getLIKES())-1+" Likes");
@@ -146,6 +181,12 @@ public class PostAdapter extends BaseAdapter {
                 iClickItemListener.onClickItemUser(itemPostDTO);
             }
         });
+        holder.ivEditPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                iClickItemListenerSetting.onClickItemSetting(itemPostDTO);
+            }
+        });
 
         return view;
     }
@@ -161,6 +202,7 @@ public class PostAdapter extends BaseAdapter {
         TextView tvSLHeart;
         TextView tvSLComment;
         ViewPager viewPager;
+        ImageView ivEditPost;
 
     }
 }

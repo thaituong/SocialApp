@@ -11,6 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
+
+import com.example.socialmediaapp.dto.NewFeedDTO;
+import com.example.socialmediaapp.fragment.EditPostFragment;
+import com.example.socialmediaapp.fragment.EditProfileFragment;
 import com.example.socialmediaapp.fragment.HomeFragment;
 
 
@@ -35,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager2 viewPager;
     private ResultDTO resultDTO;
     private BottomNavigationView bottomNavigationView;
-    ViewPagerAdapter adapter;
+    public static ViewPagerAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                         bottomNavigationView.getMenu().findItem(R.id.menu_message).setChecked(true);
                         break;
                     case 4:
-                        bottomNavigationView.getMenu().findItem(R.id.menu_setting).setChecked(true);
+                        bottomNavigationView.getMenu().findItem(R.id.menu_profile).setChecked(true);
                         break;
                 }
             }
@@ -96,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                     viewPager.setCurrentItem(2);
                 } else if(item.getItemId()==R.id.menu_message) {
                     viewPager.setCurrentItem(3);
-                } else if(item.getItemId()==R.id.menu_setting) {
+                } else if(item.getItemId()==R.id.menu_profile) {
                     viewPager.setCurrentItem(4);
                 }
                 return true;
@@ -138,13 +142,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToHomeFragment() {
-//        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//        HomeFragment homeFragment = new HomeFragment();
-//        fragmentTransaction.replace(R.id.pagerLayout, homeFragment);
-//        fragmentTransaction.addToBackStack(HomeFragment.TAG);
-//        fragmentTransaction.commit();
         adapter.notifyItemChanged(0);
         viewPager.setCurrentItem(0);
+    }
+
+    public void goToProfileFragment() {
+        adapter.notifyItemChanged(4);
+        viewPager.setCurrentItem(4);
+    }
+
+    public void goToEditProfileFragment(){
+        FragmentTransaction fragmentTransaction =getSupportFragmentManager().beginTransaction();
+        EditProfileFragment editProfileFragment=new EditProfileFragment();
+        Bundle bundle=new Bundle();
+        editProfileFragment.setArguments(bundle);
+        fragmentTransaction.replace(R.id.mainLayout,editProfileFragment);
+        fragmentTransaction.addToBackStack(EditProfileFragment.TAG);
+        fragmentTransaction.commit();
+    }
+
+    public void goToEditPostFragment(NewFeedDTO newFeedDTO){
+        FragmentTransaction fragmentTransaction =getSupportFragmentManager().beginTransaction();
+        EditPostFragment editPostFragment=new EditPostFragment();
+        Bundle bundle=new Bundle();
+        bundle.putSerializable("editpost",newFeedDTO);
+        editPostFragment.setArguments(bundle);
+        fragmentTransaction.replace(R.id.mainLayout,editPostFragment);
+        fragmentTransaction.addToBackStack(EditPostFragment.TAG);
+        fragmentTransaction.commit();
     }
 
 

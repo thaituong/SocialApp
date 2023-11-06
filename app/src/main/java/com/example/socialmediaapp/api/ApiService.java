@@ -14,10 +14,12 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -61,6 +63,26 @@ public interface ApiService {
     @Multipart
     @POST("messege/{id}")
     Call<ResponseDTO> postMessage(@Header("accessToken") String accessToken,@Path("id") String groupId,@Part(Const.KEY_CONTENT_TYPE) RequestBody type,@Part(Const.KEY_CONTENT) RequestBody content);
+
+    @GET("user/info/{id}")
+    Call<ResponseDTO> getUserInfo(@Path("id") String groupId,@Header("accessToken") String accessToken);
+
+    @GET("post/user/{id}")
+    Call<ResponseDTO> getUserPost(@Path("id") String groupId,@Header("accessToken") String accessToken);
+
+    @Multipart
+    @PUT("user/avatar")
+    Call<ResponseDTO> putUserAvatar(@Part MultipartBody.Part file, @Header("accessToken") String accessToken);
+
+    @POST("post/like/{id}")
+    Call<ResponseDTO> postLike(@Path("id") String groupId,@Header("accessToken") String accessToken);
+
+    @DELETE("post/like/{id}")
+    Call<ResponseDTO> postUnLike(@Path("id") String groupId,@Header("accessToken") String accessToken);
+
+    @Multipart
+    @PUT("post/{id}")
+    Call<ResponseDTO> postEdit(@Path("id") String groupId,@Part(Const.KEY_CAPTION) RequestBody caption,@Part(Const.KEY_ARRDELETE) RequestBody deletedImages, @Part List<MultipartBody.Part> file, @Header("accessToken") String accessToken);
 
 //    @POST("taikhoan/otp")
 //    Call<OTP> sendOTP(@Body Email email);

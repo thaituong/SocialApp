@@ -78,6 +78,11 @@ public class HomeFragment extends Fragment {
                     public void onClickItemUser(NewFeedDTO itemPostDTO) {
                         mMainActivity.goToCommentFragment(itemPostDTO.getID());
                     }
+                }, new PostAdapter.iClickItemListenerSetting() {
+                    @Override
+                    public void onClickItemSetting(NewFeedDTO itemPostDTO) {
+                        mMainActivity.goToEditPostFragment(itemPostDTO);
+                    }
                 });
                 list_view_post.setAdapter(postAdapter);
             }

@@ -11,8 +11,13 @@ public class UserDTO implements Serializable {
     private String FOLLOWERS;
     private String POSTS;
     private String EMAIL;
+    private String GENDER;
+    private String MOBILE;
+    private String ADDRESS;
+    private String DESCRIPTION;
+    private String ISFOLLOWED;
 
-    public UserDTO(String ID, String USERNAME, String FULLNAME, String AVATAR, String FOLLOWING, String FOLLOWERS, String POSTS, String email) {
+    public UserDTO(String ID, String USERNAME, String FULLNAME, String AVATAR, String FOLLOWING, String FOLLOWERS, String POSTS, String EMAIL, String GENDER, String MOBILE, String ADDRESS, String DESCRIPTION, String ISFOLLOWED) {
         this.ID = ID;
         this.USERNAME = USERNAME;
         this.FULLNAME = FULLNAME;
@@ -20,9 +25,53 @@ public class UserDTO implements Serializable {
         this.FOLLOWING = FOLLOWING;
         this.FOLLOWERS = FOLLOWERS;
         this.POSTS = POSTS;
-        this.EMAIL = email;
+        this.EMAIL = EMAIL;
+        this.GENDER = GENDER;
+        this.MOBILE = MOBILE;
+        this.ADDRESS = ADDRESS;
+        this.DESCRIPTION = DESCRIPTION;
+        this.ISFOLLOWED = ISFOLLOWED;
     }
 
+    public String getGENDER() {
+        return GENDER;
+    }
+
+    public void setGENDER(String GENDER) {
+        this.GENDER = GENDER;
+    }
+
+    public String getMOBILE() {
+        return MOBILE;
+    }
+
+    public void setMOBILE(String MOBILE) {
+        this.MOBILE = MOBILE;
+    }
+
+    public String getADDRESS() {
+        return ADDRESS;
+    }
+
+    public void setADDRESS(String ADDRESS) {
+        this.ADDRESS = ADDRESS;
+    }
+
+    public String getDESCRIPTION() {
+        return DESCRIPTION;
+    }
+
+    public void setDESCRIPTION(String DESCRIPTION) {
+        this.DESCRIPTION = DESCRIPTION;
+    }
+
+    public String getISFOLLOWED() {
+        return ISFOLLOWED;
+    }
+
+    public void setISFOLLOWED(String ISFOLLOWED) {
+        this.ISFOLLOWED = ISFOLLOWED;
+    }
 
     public String getID() {
         return ID;
