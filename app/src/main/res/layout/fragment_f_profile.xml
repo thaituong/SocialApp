@@ -6,22 +6,42 @@
     android:background="@drawable/br"
     tools:context=".fragment.ProfileFragment">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:id="@+id/rlHrader">
-
-        <TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:fontFamily="@font/font1"
-            android:text="Profile"
-            android:textColor="@color/black"
-            android:textSize="30sp"
-            android:textStyle="bold"></TextView>
-    </RelativeLayout>
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/font1"
+                android:gravity="center"
+                android:text="Profile"
+                android:textColor="#000"
+                android:textSize="30sp"
+                android:textStyle="bold"></TextView>
+            <ImageView
+                android:id="@+id/ivBackProfile"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/back"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp">
+            </ImageView>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#9E9E9E" />
+    </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -54,7 +74,15 @@
                     android:textColor="#000"
                     android:textSize="16sp"
                     android:layout_marginTop="5dp"></TextView>
+                <Button
+                    android:id="@+id/btFollow"
+                    android:layout_marginLeft="60dp"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
+                    android:text="Flower"
+                    android:background="@drawable/buttonbrblue"></Button>
             </LinearLayout>
+
 
             <LinearLayout
                 android:id="@+id/llPost"
@@ -138,22 +166,6 @@
             android:layout_below="@+id/rlUserInfo"
             android:id="@+id/rlButtonEdit"
             android:padding="10dp">
-            <Button
-                android:id="@+id/btEditProfile"
-                android:layout_width="160dp"
-                android:layout_height="30dp"
-                android:text="Edit profile"
-                android:background="@drawable/buttonbr"
-                android:textAllCaps="false"
-                android:layout_marginLeft="10dp"></Button>
-            <Button
-                android:background="@drawable/buttonbr"
-                android:layout_alignParentEnd="true"
-                android:layout_width="160dp"
-                android:layout_height="30dp"
-                android:text="Share profile"
-                android:textAllCaps="false"
-                android:layout_marginRight="10dp"></Button>
 
         </RelativeLayout>
         <View

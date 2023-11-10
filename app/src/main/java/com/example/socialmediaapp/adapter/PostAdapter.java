@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,20 +34,25 @@ public class PostAdapter extends BaseAdapter {
     private List<NewFeedDTO> listData;
     private IClickItemListener iClickItemListener;
     private iClickItemListenerSetting iClickItemListenerSetting;
+    private iClickItemListenerProfile iClickItemListenerProfile;
     public interface IClickItemListener{
         void onClickItemUser(NewFeedDTO itemPostDTO);
     }
     public interface iClickItemListenerSetting{
         void onClickItemSetting(NewFeedDTO itemPostDTO);
     }
+    public interface iClickItemListenerProfile{
+        void onClickItemProfile(NewFeedDTO itemPostDTO);
+    }
     private Context context;
     private PhotoAdapter photoAdapter;
-    public PostAdapter(Context aContext, List<NewFeedDTO> listData, IClickItemListener listener, iClickItemListenerSetting listenerSetting) {
+    public PostAdapter(Context aContext, List<NewFeedDTO> listData, IClickItemListener listener, iClickItemListenerSetting listenerSetting, iClickItemListenerProfile listenerProfile) {
         this.context = aContext;
         this.listData=listData;
         layoutInflater = LayoutInflater.from(aContext);
         this.iClickItemListener=listener;
         this.iClickItemListenerSetting=listenerSetting;
+        this.iClickItemListenerProfile=listenerProfile;
     }
     @Override
     public int getCount() {
@@ -79,6 +85,7 @@ public class PostAdapter extends BaseAdapter {
             holder.tvSLHeart = (TextView) view.findViewById(R.id.tvSLHeart);
             holder.tvSLComment = (TextView) view.findViewById(R.id.tvSLComment);
             holder.ivEditPost = (ImageView) view.findViewById(R.id.ivEditPost);
+            holder.llUser=(LinearLayout) view.findViewById(R.id.llUser);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
@@ -187,6 +194,12 @@ public class PostAdapter extends BaseAdapter {
                 iClickItemListenerSetting.onClickItemSetting(itemPostDTO);
             }
         });
+        holder.llUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                iClickItemListenerProfile.onClickItemProfile(itemPostDTO);
+            }
+        });
 
         return view;
     }
@@ -203,6 +216,7 @@ public class PostAdapter extends BaseAdapter {
         TextView tvSLComment;
         ViewPager viewPager;
         ImageView ivEditPost;
+        LinearLayout llUser;
 
     }
 }

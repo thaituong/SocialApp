@@ -15,6 +15,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.socialmediaapp.dto.NewFeedDTO;
 import com.example.socialmediaapp.fragment.EditPostFragment;
 import com.example.socialmediaapp.fragment.EditProfileFragment;
+import com.example.socialmediaapp.fragment.FProfileFragment;
 import com.example.socialmediaapp.fragment.HomeFragment;
 
 
@@ -27,6 +28,7 @@ import com.example.socialmediaapp.dto.ResultDTO;
 import com.example.socialmediaapp.fragment.CommentFragment;
 import com.example.socialmediaapp.fragment.ConversationFragment;
 import com.example.socialmediaapp.fragment.HomeFragment;
+import com.example.socialmediaapp.fragment.ListFollowFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import retrofit2.Call;
@@ -169,6 +171,28 @@ public class MainActivity extends AppCompatActivity {
         editPostFragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.mainLayout,editPostFragment);
         fragmentTransaction.addToBackStack(EditPostFragment.TAG);
+        fragmentTransaction.commit();
+    }
+
+    public void goToFProfileFragment(String id){
+        FragmentTransaction fragmentTransaction =getSupportFragmentManager().beginTransaction();
+        FProfileFragment fProfileFragment=new FProfileFragment();
+        Bundle bundle=new Bundle();
+        bundle.putSerializable("idprofile",id);
+        fProfileFragment.setArguments(bundle);
+        fragmentTransaction.replace(R.id.mainLayout,fProfileFragment);
+        fragmentTransaction.addToBackStack(FProfileFragment.TAG);
+        fragmentTransaction.commit();
+    }
+
+    public void goToListFollowFragment(ResultDTO resultDTO){
+        FragmentTransaction fragmentTransaction =getSupportFragmentManager().beginTransaction();
+        ListFollowFragment listFollowFragment=new ListFollowFragment();
+        Bundle bundle=new Bundle();
+        bundle.putSerializable("listfollower",resultDTO);
+        listFollowFragment.setArguments(bundle);
+        fragmentTransaction.replace(R.id.mainLayout,listFollowFragment);
+        fragmentTransaction.addToBackStack(ListFollowFragment.TAG);
         fragmentTransaction.commit();
     }
 

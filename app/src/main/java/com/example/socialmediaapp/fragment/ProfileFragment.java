@@ -87,6 +87,11 @@ public class ProfileFragment extends Fragment {
                     public void onClickItemSetting(NewFeedDTO itemPostDTO) {
                         mMainActivity.goToEditPostFragment(itemPostDTO);
                     }
+                }, new PostAdapter.iClickItemListenerProfile() {
+                    @Override
+                    public void onClickItemProfile(NewFeedDTO itemPostDTO) {
+                        mMainActivity.goToFProfileFragment(itemPostDTO.getUSER().getID());
+                    }
                 });
                 list_view_post.setAdapter(postAdapter);
             }

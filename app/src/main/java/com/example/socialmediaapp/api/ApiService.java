@@ -84,12 +84,16 @@ public interface ApiService {
     @PUT("post/{id}")
     Call<ResponseDTO> postEdit(@Path("id") String groupId,@Part(Const.KEY_CAPTION) RequestBody caption,@Part(Const.KEY_ARRDELETE) RequestBody deletedImages, @Part List<MultipartBody.Part> file, @Header("accessToken") String accessToken);
 
-//    @POST("taikhoan/otp")
-//    Call<OTP> sendOTP(@Body Email email);
-//
-//    @POST("taikhoan/dangky")
-//    Call<Message> sendTTDK(@Body TTCN ttcn);
-//
+    @GET("user/followers/{id}")
+    Call<ResponseDTO> getFollowers(@Path("id") String groupId,@Header("accessToken") String accessToken);
 
+    @GET("user/followed/{id}")
+    Call<ResponseDTO> getFollowed(@Path("id") String groupId,@Header("accessToken") String accessToken);
+
+    @GET("user/follow/{id}")
+    Call<ResponseDTO> follow(@Path("id") String groupId,@Header("accessToken") String accessToken);
+
+    @GET("user/unfollow/{id}")
+    Call<ResponseDTO> unFollow(@Path("id") String groupId,@Header("accessToken") String accessToken);
 
 }

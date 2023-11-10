@@ -58,7 +58,6 @@ public class HomeFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         idClickTest = (ImageView) view.findViewById(R.id.idClickTest);
         list_view_post=(ListView) view.findViewById(R.id.list_view_post);
-        SocketManager.connect();
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         imgpos=new int[100];
         for (int i = 0; i < imgpos.length; i++) {
@@ -82,6 +81,11 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onClickItemSetting(NewFeedDTO itemPostDTO) {
                         mMainActivity.goToEditPostFragment(itemPostDTO);
+                    }
+                }, new PostAdapter.iClickItemListenerProfile() {
+                    @Override
+                    public void onClickItemProfile(NewFeedDTO itemPostDTO) {
+                        mMainActivity.goToFProfileFragment(itemPostDTO.getUSER().getID());
                     }
                 });
                 list_view_post.setAdapter(postAdapter);
