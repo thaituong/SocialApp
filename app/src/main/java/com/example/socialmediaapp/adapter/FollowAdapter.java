@@ -8,15 +8,22 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.socialmediaapp.R;
+import com.example.socialmediaapp.activity.MainActivity;
+import com.example.socialmediaapp.api.ApiService;
 import com.example.socialmediaapp.dto.ConversationDTO;
+import com.example.socialmediaapp.dto.ResponseDTO;
 import com.example.socialmediaapp.dto.UserDTO;
 
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FollowAdapter extends BaseAdapter {
     private LayoutInflater layoutInflater;
@@ -65,6 +72,7 @@ public class FollowAdapter extends BaseAdapter {
 
         holder.tvUserName.setText(userDTO.getUSERNAME());
         holder.tvFullName.setText(userDTO.getFULLNAME());
+        Glide.with(context).load(userDTO.getAVATAR()).into(holder.civUserAvatar);
         if(userDTO.getISFOLLOWED().trim().equalsIgnoreCase("1")){
             holder.btFollow.setBackgroundResource(R.drawable.buttonbr);
             holder.btFollow.setText("Following");
@@ -72,7 +80,40 @@ public class FollowAdapter extends BaseAdapter {
             holder.btFollow.setBackgroundResource(R.drawable.btfl);
             holder.btFollow.setText("Follow");
         }
-        Glide.with(context).load(userDTO.getAVATAR()).into(holder.civUserAvatar);
+        holder.btFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(userDTO.getISFOLLOWED().trim().equalsIgnoreCase("0")){
+                    ApiService.apiService.follow(userDTO.getID(), MainActivity.accessToken).enqueue(new Callback<ResponseDTO>() {
+                        @Override
+                        public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
+                            ResponseDTO message = response.body();
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseDTO> call, Throwable t) {
+                            Toast.makeText(context, "Follow thất bại" + t.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    holder.btFollow.setBackgroundResource(R.drawable.buttonbr);
+                    holder.btFollow.setText("Following");
+                }else{
+                    ApiService.apiService.unFollow(userDTO.getID(),MainActivity.accessToken).enqueue(new Callback<ResponseDTO>() {
+                        @Override
+                        public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
+                            ResponseDTO message = response.body();
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseDTO> call, Throwable t) {
+                            Toast.makeText(context, "UnFollow thất bại" + t.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    holder.btFollow.setBackgroundResource(R.drawable.btfl);
+                    holder.btFollow.setText("Follow");
+                }
+            }
+        });
         return view;
     }
 

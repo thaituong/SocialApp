@@ -34,8 +34,20 @@ public class MessageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_message, container, false);
+        cnView(view);
+        setEvent();
+        return view;
+    }
+    private void cnView(View view) {
         mMainActivity=(MainActivity)getActivity();
         list_view_message=(ListView) view.findViewById(R.id.list_view_message);
+    }
+
+    private void setEvent() {
+        loadMessage();
+    }
+
+    private void loadMessage() {
         ApiService.apiService.getListMessage(MainActivity.accessToken).enqueue(new Callback<ResponseDTO>() {
             @Override
             public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
@@ -55,6 +67,5 @@ public class MessageFragment extends Fragment {
                 Log.d("API Response", "Giá trị litsp: " + t.getMessage());
             }
         });
-        return view;
     }
 }

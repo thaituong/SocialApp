@@ -29,13 +29,18 @@ public class CommentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_comment, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.rvComment);
-        closeComment = (ImageView) view.findViewById(R.id.ivCloseComment);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        cnView(view);
+        setEvent();
+        return view;
+    }
+
+    private void setEvent() {
+        // Load Comment
         Bundle bundleReceive=getArguments();
         ResponseDTO itemPostDTO= (ResponseDTO) bundleReceive.get("repcomment");
         commentAdapter = new CommentAdapter((ArrayList<CommentDTO>) itemPostDTO.getResult().getComments(),getContext());
         recyclerView.setAdapter(commentAdapter);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(mLayoutManager);
         closeComment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,6 +48,10 @@ public class CommentFragment extends Fragment {
                 getFragmentManager().popBackStack();
             }
         });
-        return view;
+    }
+
+    private void cnView(View view) {
+        recyclerView = (RecyclerView) view.findViewById(R.id.rvComment);
+        closeComment = (ImageView) view.findViewById(R.id.ivCloseComment);
     }
 }

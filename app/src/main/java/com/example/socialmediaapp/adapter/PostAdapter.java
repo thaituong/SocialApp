@@ -91,6 +91,11 @@ public class PostAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         final NewFeedDTO itemPostDTO = this.listData.get(i);
+        if(!itemPostDTO.getUSER().getID().equalsIgnoreCase(MainActivity.userID)){
+            holder.ivEditPost.setVisibility(View.GONE);
+        }else{
+            holder.ivEditPost.setVisibility(View.VISIBLE);
+        }
         if (itemPostDTO.getISLIKED().equalsIgnoreCase("0")){
             holder.ivHeart.setImageResource(R.drawable.heart);
         }else {

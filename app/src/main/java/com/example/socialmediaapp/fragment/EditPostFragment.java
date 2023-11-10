@@ -57,12 +57,14 @@ public class EditPostFragment extends Fragment {
     private static final int MY_REQUEST_CODE = 10;
     private static final int PERMISSION_REQUEST_CODE = 123;
     NewFeedDTO post;
+    private MainActivity mMainActivity;
     private CircleImageView civUserAvatar;
     private TextView tvUserName;
     private EditText etCaption;
     private Button btEditPost;
     private ViewPager vpImgPost;
     private ImageView ivAddImg;
+    private ImageView ivCloseEditPost;
     ImageSPagerAdapter adapter;
     private ProgressDialog progressDialog;
     List<ImgDTO> imageUris = new ArrayList<>();
@@ -70,17 +72,26 @@ public class EditPostFragment extends Fragment {
     public EditPostFragment() {
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit_post, container, false);
+        cnView(view);
+        setEvent();
+        return view;
+    }
+    private void cnView(View view) {
+        mMainActivity=(MainActivity)getActivity();
         civUserAvatar = (CircleImageView) view.findViewById(R.id.civUserAvatar);
         tvUserName = (TextView) view.findViewById(R.id.tvUserName);
         etCaption = (EditText) view.findViewById(R.id.etCaption);
         vpImgPost = (ViewPager) view.findViewById(R.id.vpImgPost);
         ivAddImg=(ImageView) view.findViewById(R.id.ivAddImg);
+        ivCloseEditPost = (ImageView) view.findViewById(R.id.ivCloseEditPost);
         btEditPost = (Button) view.findViewById(R.id.btEditPost);
+    }
+
+    private void setEvent() {
         progressDialog=new ProgressDialog(this.getContext());
         progressDialog.setMessage("Đang đăng ...");
         Bundle bundleReceive = getArguments();
@@ -112,7 +123,12 @@ public class EditPostFragment extends Fragment {
                 callApiEditPost();
             }
         });
-        return view;
+        ivCloseEditPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().popBackStack();
+            }
+        });
     }
 
     private void callApiEditPost() {
@@ -144,10 +160,7 @@ public class EditPostFragment extends Fragment {
                 progressDialog.dismiss();
                 ResponseDTO message=response.body();
                 Toast.makeText(getActivity(),"Đăng thành công",Toast.LENGTH_LONG).show();
-//                imageUris.clear();
-//                adapter.notifyDataSetChanged();
-//                etContent.setText("");
-//                ((MainActivity) requireActivity()).goToHomeFragment();
+                getFragmentManager().popBackStack();
             }
 
             @Override

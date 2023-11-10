@@ -44,8 +44,8 @@
             android:layout_centerInParent="true"
             android:background="@drawable/btfl"
             android:text="Follow"
-            android:textAllCaps="false"
             android:textAlignment="center"
+            android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="18sp"></Button>
     </RelativeLayout>

@@ -63,10 +63,12 @@ public class AddFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add, container, false);
-        ivAddImg=(ImageView) view.findViewById(R.id.ivAddImg);
-        vpImgPost=(ViewPager) view.findViewById(R.id.vpImgPost);
-        etContent=(EditText) view.findViewById(R.id.etContent);
-        btPost=(Button) view.findViewById(R.id.btPost);
+        cnView(view);
+        setEvent();
+        return view;
+    }
+
+    private void setEvent() {
         adapter = new ImagePagerAdapter(this.getContext(), imageUris);
         progressDialog=new ProgressDialog(this.getContext());
         progressDialog.setMessage("Đang đăng ...");
@@ -83,30 +85,27 @@ public class AddFragment extends Fragment {
                 callApiLoadPost();
             }
         });
-
         etContent.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // Không cần thực hiện gì ở đây
-            }
-
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Kiểm tra khi nào nên hiển thị nút
                 if (s.toString().trim().isEmpty()) {
                     btPost.setVisibility(View.GONE);
                 } else {
                     btPost.setVisibility(View.VISIBLE);
                 }
             }
-
             @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-
+            public void afterTextChanged(Editable editable) {}
         });
-        return view;
+    }
+
+    private void cnView(View view) {
+        ivAddImg=(ImageView) view.findViewById(R.id.ivAddImg);
+        vpImgPost=(ViewPager) view.findViewById(R.id.vpImgPost);
+        etContent=(EditText) view.findViewById(R.id.etContent);
+        btPost=(Button) view.findViewById(R.id.btPost);
     }
 
     private void openImagePicker() {
@@ -122,11 +121,6 @@ public class AddFragment extends Fragment {
         progressDialog.show();
         String caption=etContent.getText().toString().trim();
         RequestBody requestBodyCaption=RequestBody.create(MediaType.parse("multipart/form-data"),caption);
-//        String strRealPath=RealPathUtil.getRealPath(this.getContext(),imageUris.get(0));
-//        File file=new File(strRealPath);
-//        RequestBody requestBodyFile=RequestBody.create(MediaType.parse("multipart/form-data"),file);
-//        MultipartBody.Part multipartBodyFile=MultipartBody.Part.createFormData("file",file.getName(),requestBodyFile);
-
         List<MultipartBody.Part> multipartBodyFiles = new ArrayList<>();
         for (Uri imageUri : imageUris) {
             String strRealPath = RealPathUtil.getRealPath(this.getContext(), imageUri);
@@ -136,7 +130,6 @@ public class AddFragment extends Fragment {
             Log.d("Lik Img", ""+multipartBodyFile);
             multipartBodyFiles.add(multipartBodyFile);
         }
-
         ApiService.apiService.postNewFeed(requestBodyCaption,multipartBodyFiles, MainActivity.accessToken).enqueue(new Callback<ResponseDTO>() {
             @Override
             public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
@@ -148,7 +141,6 @@ public class AddFragment extends Fragment {
                 etContent.setText("");
                 ((MainActivity) requireActivity()).goToHomeFragment();
             }
-
             @Override
             public void onFailure(Call<ResponseDTO> call, Throwable t) {
                 progressDialog.dismiss();
@@ -157,6 +149,7 @@ public class AddFragment extends Fragment {
         });
 
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == PERMISSION_REQUEST_CODE) {
@@ -165,7 +158,6 @@ public class AddFragment extends Fragment {
             }
         }
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

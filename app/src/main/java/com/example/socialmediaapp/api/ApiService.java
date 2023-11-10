@@ -96,4 +96,7 @@ public interface ApiService {
     @GET("user/unfollow/{id}")
     Call<ResponseDTO> unFollow(@Path("id") String groupId,@Header("accessToken") String accessToken);
 
+    @GET("user/search")
+    Call<ResponseDTO> getListSearch(@Query("username") String username, @Header("accessToken") String accessToken);
+
 }

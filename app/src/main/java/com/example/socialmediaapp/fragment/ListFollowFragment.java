@@ -32,8 +32,12 @@ public class ListFollowFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_follow, container, false);
-        list_view_follow=(ListView) view.findViewById(R.id.list_view_follow);
-        ivBackListFollow=(ImageView) view.findViewById(R.id.ivBackListFollow);
+        cnView(view);
+        setEvent();
+        return view;
+    }
+
+    private void setEvent() {
         Bundle bundleReceive = getArguments();
         resultDTO = (ResultDTO) bundleReceive.get("listfollower");
         followAdapter=new FollowAdapter(getContext(),resultDTO.getUsers());
@@ -44,6 +48,10 @@ public class ListFollowFragment extends Fragment {
                 getFragmentManager().popBackStack();
             }
         });
-        return view;
+    }
+
+    private void cnView(View view) {
+        list_view_follow=(ListView) view.findViewById(R.id.list_view_follow);
+        ivBackListFollow=(ImageView) view.findViewById(R.id.ivBackListFollow);
     }
 }

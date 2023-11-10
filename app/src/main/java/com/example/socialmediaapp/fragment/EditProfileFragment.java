@@ -65,7 +65,6 @@ public class EditProfileFragment extends Fragment {
     private Uri imageUri;
     private boolean isTextChanged = false;
 
-
     public EditProfileFragment() {
     }
     @Override
@@ -73,6 +72,12 @@ public class EditProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
+        cnView(view);
+        setEvent();
+        return view;
+    }
+
+    private void cnView(View view) {
         mMainActivity=(MainActivity)getActivity();
         civUserAvatar = (CircleImageView) view.findViewById(R.id.civUserAvatar);
         etUserName = (EditText) view.findViewById(R.id.etUserName);
@@ -87,6 +92,31 @@ public class EditProfileFragment extends Fragment {
         btInfo = (Button) view.findViewById(R.id.btInfo);
         btSecurity = (Button) view.findViewById(R.id.btSecurity);
         ivBackEditProfile = (ImageView) view.findViewById(R.id.ivBackEditProfile);
+    }
+
+    private void setEvent() {
+        loadUserInfo();
+        civUserAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openImagePicker();
+            }
+        });
+        btAvt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callApiPutUserAvt();
+            }
+        });
+        ivBackEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().popBackStack();
+            }
+        });
+    }
+
+    private void loadUserInfo() {
         ApiService.apiService.getUserInfo(MainActivity.userID, MainActivity.accessToken).enqueue(new Callback<ResponseDTO>() {
             @Override
             public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
@@ -104,27 +134,8 @@ public class EditProfileFragment extends Fragment {
                 Log.d("API Response", "Giá trị litsp: " + t.getMessage());
             }
         });
-        civUserAvatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openImagePicker();
-            }
-        });
-        btAvt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                callApiPutUserAvt();
-            }
-        });
-
-        ivBackEditProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getFragmentManager().popBackStack();
-            }
-        });
-        return view;
     }
+
     private void openImagePicker() {
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
@@ -141,7 +152,6 @@ public class EditProfileFragment extends Fragment {
         RequestBody requestBodyFile=RequestBody.create(MediaType.parse("multipart/form-data"),file);
         MultipartBody.Part multipartBodyFile=MultipartBody.Part.createFormData("file",file.getName(),requestBodyFile);
 
-
         ApiService.apiService.putUserAvatar(multipartBodyFile, MainActivity.accessToken).enqueue(new Callback<ResponseDTO>() {
             @Override
             public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
@@ -154,8 +164,8 @@ public class EditProfileFragment extends Fragment {
                 Toast.makeText(getActivity(),"Chỉnh sửa avatar thất bại"+t.getMessage(),Toast.LENGTH_LONG).show();
             }
         });
-
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == PERMISSION_REQUEST_CODE) {
@@ -164,7 +174,6 @@ public class EditProfileFragment extends Fragment {
             }
         }
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -175,7 +184,4 @@ public class EditProfileFragment extends Fragment {
             btAvt.setVisibility(View.VISIBLE);
         }
     }
-
-
-
 }

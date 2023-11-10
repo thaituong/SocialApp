@@ -49,25 +49,42 @@ public class HomeFragment extends Fragment {
     public HomeFragment() {
         // Required empty public constructor
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        cnView(view);
+        setEvent();
+        return view;
+    }
+    private void cnView(View view) {
         mMainActivity=(MainActivity)getActivity();
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         idClickTest = (ImageView) view.findViewById(R.id.idClickTest);
         list_view_post=(ListView) view.findViewById(R.id.list_view_post);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+    }
+    private void setEvent() {
+        createVarLoadImg();
+        loadStory();
+        loadPost();
+    }
+    private void createVarLoadImg() {
         imgpos=new int[100];
         for (int i = 0; i < imgpos.length; i++) {
             imgpos[i] = 0;
         }
+    }
+
+    private void loadStory() {
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         listitem = new ArrayList<>();
         data();
         mitemAdapter = new ItemAdapter(listitem,getContext());
         recyclerView.setAdapter(mitemAdapter);
         recyclerView.setLayoutManager(mLayoutManager);
+    }
+
+    private void loadPost() {
         ApiService.apiService.getListPost(MainActivity.accessToken).enqueue(new Callback<ResponseDTO>() {
             @Override
             public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
@@ -97,8 +114,6 @@ public class HomeFragment extends Fragment {
                 Log.d("API Response", "Giá trị litsp: " + t.getMessage());
             }
         });
-
-        return view;
     }
 
 

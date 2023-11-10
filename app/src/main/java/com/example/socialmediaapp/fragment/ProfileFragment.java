@@ -48,6 +48,11 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        cnView(view);
+        setEvent();
+        return view;
+    }
+    private void cnView(View view) {
         mMainActivity=(MainActivity)getActivity();
         civUserAvatar = (CircleImageView) view.findViewById(R.id.civUserAvatar);
         tvUserName = (TextView) view.findViewById(R.id.tvUserName);
@@ -56,6 +61,20 @@ public class ProfileFragment extends Fragment {
         tvSLFollowing = (TextView) view.findViewById(R.id.tvSLFollowing);
         btEditProfile = (Button) view.findViewById(R.id.btEditProfile);
         list_view_post=(ListView) view.findViewById(R.id.list_view_post);
+    }
+
+    private void setEvent() {
+        loadUserInfo();
+        loadPost();
+        btEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mMainActivity.goToEditProfileFragment();
+            }
+        });
+    }
+
+    private void loadUserInfo() {
         ApiService.apiService.getUserInfo(MainActivity.userID, MainActivity.accessToken).enqueue(new Callback<ResponseDTO>() {
             @Override
             public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
@@ -72,7 +91,9 @@ public class ProfileFragment extends Fragment {
                 Log.d("API Response", "Giá trị litsp: " + t.getMessage());
             }
         });
+    }
 
+    private void loadPost() {
         ApiService.apiService.getUserPost(MainActivity.userID,MainActivity.accessToken).enqueue(new Callback<ResponseDTO>() {
             @Override
             public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
@@ -102,13 +123,5 @@ public class ProfileFragment extends Fragment {
                 Log.d("API Response", "Giá trị litsp: " + t.getMessage());
             }
         });
-        btEditProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mMainActivity.goToEditProfileFragment();
-            }
-        });
-
-        return view;
     }
 }

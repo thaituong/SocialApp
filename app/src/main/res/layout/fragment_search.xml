@@ -5,13 +5,62 @@
     android:layout_height="match_parent"
     android:background="@drawable/br"
     tools:context=".fragment.SearchFragment">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/rlHrader">
 
-    <TextView
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/font1"
+            android:text="Search"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="bold"></TextView>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rvSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/rlHrader"
+        android:background="@drawable/buttonbr"
+        android:layout_margin="10dp"
+        android:padding="5dp">
+        <ImageView
+            android:id="@+id/iviconSearch"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/search"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"></ImageView>
+        <EditText
+            android:id="@+id/etSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/iviconSearch"
+            android:hint="Search"
+            android:textColor="#636D77"
+            android:textSize="18sp"
+            android:layout_marginLeft="10dp"
+            android:background="#CCCCCC">
+        </EditText>
+
+    </RelativeLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Search"
-        android:textStyle="bold"
-        android:textSize="50sp"
-        />
+        android:layout_below="@+id/rvSearch">
+
+        <ListView
+            android:id="@+id/list_view_follow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"></ListView>
+    </LinearLayout>
+
 
 </RelativeLayout>
