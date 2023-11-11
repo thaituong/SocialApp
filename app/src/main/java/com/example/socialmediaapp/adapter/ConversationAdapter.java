@@ -54,15 +54,20 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if(message.getTYPE().equalsIgnoreCase("text")){
             if (holder instanceof UserViewHolder) {
                 UserViewHolder userViewHolder = (UserViewHolder) holder;
+                userViewHolder.img.setVisibility(View.GONE);
+                userViewHolder.tinnhan.setVisibility(View.VISIBLE);
                 userViewHolder.tinnhan.setText(message.getCONTENT());
             } else if (holder instanceof OtherViewHolder) {
                 OtherViewHolder otherViewHolder = (OtherViewHolder) holder;
+                otherViewHolder.img.setVisibility(View.GONE);
+                otherViewHolder.tinnhan.setVisibility(View.VISIBLE);
                 otherViewHolder.tinnhan.setText(message.getCONTENT());
             }
         }else{
             if (holder instanceof UserViewHolder) {
                 UserViewHolder userViewHolder = (UserViewHolder) holder;
                 userViewHolder.tinnhan.setVisibility(View.GONE);
+                userViewHolder.img.setVisibility(View.VISIBLE);
                 ViewGroup.LayoutParams params = userViewHolder.img.getLayoutParams();
                 params.width = 600;
                 params.height = 600;
@@ -72,6 +77,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             } else if (holder instanceof OtherViewHolder) {
                 OtherViewHolder otherViewHolder = (OtherViewHolder) holder;
                 otherViewHolder.tinnhan.setVisibility(View.GONE);
+                otherViewHolder.img.setVisibility(View.VISIBLE);
                 ViewGroup.LayoutParams params = otherViewHolder.img.getLayoutParams();
                 params.width = 600;
                 params.height = 600;

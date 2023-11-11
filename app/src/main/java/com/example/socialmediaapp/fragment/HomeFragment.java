@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.socialmediaapp.NotificationHelper;
 import com.example.socialmediaapp.SocketManager;
 import com.example.socialmediaapp.activity.MainActivity;
 import com.example.socialmediaapp.R;
@@ -46,6 +47,7 @@ public class HomeFragment extends Fragment {
     private ResponseDTO litsp;
     public static int[] imgpos;
     private ListView list_view_post;
+    private ImageView ivNotification;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -62,11 +64,18 @@ public class HomeFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         idClickTest = (ImageView) view.findViewById(R.id.idClickTest);
         list_view_post=(ListView) view.findViewById(R.id.list_view_post);
+        ivNotification = (ImageView) view.findViewById(R.id.ivNotification);
     }
     private void setEvent() {
         createVarLoadImg();
         loadStory();
         loadPost();
+        ivNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
     private void createVarLoadImg() {
         imgpos=new int[100];
@@ -115,6 +124,7 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
 
 
     private void data(){

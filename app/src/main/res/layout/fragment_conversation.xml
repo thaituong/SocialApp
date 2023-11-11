@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:id="@+id/header_title">
+        android:id="@+id/header_title"
+        android:layout_marginBottom="10dp">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -73,22 +74,24 @@
         android:layout_above="@+id/rlSendMessage"
         android:divider="@android:color/transparent"
         android:dividerHeight="5dp"></androidx.recyclerview.widget.RecyclerView>
+
     <RelativeLayout
         android:id="@+id/rlSendMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/ivImgSend"
+        android:layout_alignParentBottom="true"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/cmt_textbox"
-        android:orientation="horizontal">
+        android:background="@drawable/btn_bg"
+        android:orientation="horizontal"
+        android:padding="8dp">
 
         <ImageView
             android:id="@+id/ivCommentIcon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
@@ -96,38 +99,35 @@
 
         <EditText
             android:id="@+id/etContent"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/ivMessSend"
             android:layout_toRightOf="@+id/ivCommentIcon"
             android:background="#fff"
             android:hint="Nhắn tin"
             android:textSize="18sp"></EditText>
 
-
-
+        <ImageView
+            android:id="@+id/ivImgSend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="10dp"
+            android:visibility="gone"></ImageView>
 
         <ImageView
             android:id="@+id/ivMessSend"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:src="@drawable/send"
-            android:visibility="gone">
-        </ImageView>
+            android:src="@drawable/send"></ImageView>
     </RelativeLayout>
-    <ImageView
-        android:id="@+id/ivImgSend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="10dp"
-        ></ImageView>
+
 
 
 </RelativeLayout>

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +39,8 @@ public class ProfileFragment extends Fragment {
     private Button btEditProfile;
     public PostAdapter postAdapter;
     private ListView list_view_post;
+    private LinearLayout llFollower;
+    private LinearLayout llFollowing;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -61,6 +64,8 @@ public class ProfileFragment extends Fragment {
         tvSLFollowing = (TextView) view.findViewById(R.id.tvSLFollowing);
         btEditProfile = (Button) view.findViewById(R.id.btEditProfile);
         list_view_post=(ListView) view.findViewById(R.id.list_view_post);
+        llFollower=(LinearLayout) view.findViewById(R.id.llFollower);
+        llFollowing=(LinearLayout) view.findViewById(R.id.llFollowing);
     }
 
     private void setEvent() {
@@ -70,6 +75,43 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 mMainActivity.goToEditProfileFragment();
+            }
+        });
+        llFollower.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ApiService.apiService.getFollowers(MainActivity.userID,MainActivity.accessToken).enqueue(new Callback<ResponseDTO>() {
+                    @Override
+                    public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
+                        litsp=response.body();
+                        mMainActivity.goToListFollowFragment(litsp.getResult());
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseDTO> call, Throwable t) {
+                        Toast.makeText(getActivity(),"Call Api Error"+t.getMessage(),Toast.LENGTH_LONG).show();
+                        Log.d("API Response", "Giá trị litsp: " + t.getMessage());
+                    }
+                });
+            }
+        });
+        // View List Following
+        llFollowing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ApiService.apiService.getFollowed(MainActivity.userID,MainActivity.accessToken).enqueue(new Callback<ResponseDTO>() {
+                    @Override
+                    public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
+                        litsp=response.body();
+                        mMainActivity.goToListFollowFragment(litsp.getResult());
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseDTO> call, Throwable t) {
+                        Toast.makeText(getActivity(),"Call Api Error"+t.getMessage(),Toast.LENGTH_LONG).show();
+                        Log.d("API Response", "Giá trị litsp: " + t.getMessage());
+                    }
+                });
             }
         });
     }

@@ -46,7 +46,13 @@ public interface ApiService {
 
     @GET("post/comment/{id}")
     Call<ResponseDTO> getListComment(@Path("id") String groupId, @Header("accessToken") String accessToken);
+    @Multipart
+    @POST("post/comment/{id}")
+    Call<ResponseDTO> postComment(@Path("id") String groupId, @Part(Const.KEY_CONTENT) RequestBody content,@Header("accessToken") String accessToken);
 
+    @Multipart
+    @POST("post/comment/{id}/{idcm}")
+    Call<ResponseDTO> postRepComment(@Path("id") String groupId,@Path("idcm") String idcm, @Part(Const.KEY_CONTENT) RequestBody content,@Header("accessToken") String accessToken);
     @Multipart
     @POST("post")
     Call<ResponseDTO> postNewFeed(@Part(Const.KEY_CAPTION) RequestBody caption, @Part List<MultipartBody.Part> file, @Header("accessToken") String accessToken);
@@ -64,6 +70,9 @@ public interface ApiService {
     @POST("messege/{id}")
     Call<ResponseDTO> postMessage(@Header("accessToken") String accessToken,@Path("id") String groupId,@Part(Const.KEY_CONTENT_TYPE) RequestBody type,@Part(Const.KEY_CONTENT) RequestBody content);
 
+    @Multipart
+    @POST("messege/{id}")
+    Call<ResponseDTO> postMessageImg(@Header("accessToken") String accessToken,@Path("id") String groupId,@Part(Const.KEY_CONTENT_TYPE) RequestBody type,@Part MultipartBody.Part file);
     @GET("user/info/{id}")
     Call<ResponseDTO> getUserInfo(@Path("id") String groupId,@Header("accessToken") String accessToken);
 

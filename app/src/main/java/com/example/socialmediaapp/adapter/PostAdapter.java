@@ -1,6 +1,7 @@
 package com.example.socialmediaapp.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,7 +23,15 @@ import com.example.socialmediaapp.R;
 import com.example.socialmediaapp.dto.NewFeedDTO;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -101,10 +110,18 @@ public class PostAdapter extends BaseAdapter {
         }else {
             holder.ivHeart.setImageResource(R.drawable.redheart);
         }
-
         holder.tvUserName.setText(itemPostDTO.getUSER().getFULLNAME());
+
         Glide.with(context).load(itemPostDTO.getUSER().getAVATAR()).into(holder.civUserAvatar);
-        holder.tvPostTime.setText(itemPostDTO.getCreatedAt());
+
+        Instant instant = Instant.parse(itemPostDTO.getCreatedAt().toString());
+        ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(instant, ZoneId.of("UTC"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy");
+        String formattedDate = zonedDateTime.format(formatter);
+        holder.tvPostTime.setText(formattedDate);
+
+        Log.d("Aloo1", ""+itemPostDTO.getCreatedAt().toString());
+        Log.d("Aloo2", ""+formattedDate);
         holder.tvCaption.setText(itemPostDTO.getCAPTION());
         if(itemPostDTO.getPOST_IMAGEs().size()>0){
             holder.imgViewPost.setVisibility(View.VISIBLE);

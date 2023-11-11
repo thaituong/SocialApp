@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.socialmediaapp.SocketManager;
 import com.example.socialmediaapp.dto.NewFeedDTO;
 import com.example.socialmediaapp.fragment.EditPostFragment;
 import com.example.socialmediaapp.fragment.EditProfileFragment;
@@ -54,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
         viewPager=findViewById(R.id.viewPager);
         bottomNavigationView=findViewById(R.id.bottomNavigation);
-
+        SocketManager.connect();
+        SocketManager.addSocketEventListener(getBaseContext());
         adapter=new ViewPagerAdapter(this);
         viewPager.setAdapter(adapter);
         viewPager.setUserInputEnabled(false);
@@ -111,25 +113,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     public void goToCommentFragment(String id){
-        ApiService.apiService.getListComment(id.toString(),accessToken).enqueue(new Callback<ResponseDTO>() {
-            @Override
-            public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
-                ResponseDTO responseDTO=response.body();
-                FragmentTransaction fragmentTransaction =getSupportFragmentManager().beginTransaction();
-                CommentFragment commentFragment=new CommentFragment();
-                Bundle bundle=new Bundle();
-                bundle.putSerializable("repcomment",responseDTO);
-                commentFragment.setArguments(bundle);
-                fragmentTransaction.replace(R.id.mainLayout,commentFragment);
-                fragmentTransaction.addToBackStack(CommentFragment.TAG);
-                fragmentTransaction.commit();
-            }
-            @Override
-            public void onFailure(Call<ResponseDTO> call, Throwable t) {
-                Toast.makeText(MainActivity.this,"Call Api Error"+t.getMessage(),Toast.LENGTH_LONG).show();
-                Log.d("API Response", "Giá trị litsp: " + t.getMessage());
-            }
-        });
+        FragmentTransaction fragmentTransaction =getSupportFragmentManager().beginTransaction();
+        CommentFragment commentFragment=new CommentFragment();
+        Bundle bundle=new Bundle();
+        bundle.putSerializable("repcomment",id);
+        commentFragment.setArguments(bundle);
+        fragmentTransaction.replace(R.id.mainLayout,commentFragment);
+        fragmentTransaction.addToBackStack(CommentFragment.TAG);
+        fragmentTransaction.commit();
     }
 
     public void goToConversationFragment(ConversationDTO conversation){
