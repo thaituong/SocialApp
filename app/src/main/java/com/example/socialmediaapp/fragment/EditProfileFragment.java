@@ -123,6 +123,8 @@ public class EditProfileFragment extends Fragment {
         ivBackEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ProfileFragment.loadUserInfo(getContext());
+                ProfileFragment.loadPost(getContext());
                 getFragmentManager().popBackStack();
             }
         });
@@ -144,7 +146,6 @@ public class EditProfileFragment extends Fragment {
             @Override
             public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
                 ResponseDTO message=response.body();
-                Log.d("loooooo", ": "+message.getMessage());
                 Toast.makeText(getActivity(),""+message.getStatus().trim(),Toast.LENGTH_LONG).show();
             }
 

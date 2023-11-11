@@ -159,14 +159,16 @@ public class EditPostFragment extends Fragment {
             public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
                 progressDialog.dismiss();
                 ResponseDTO message=response.body();
-                Toast.makeText(getActivity(),"Đăng thành công",Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(),"Chỉnh sửa thành công",Toast.LENGTH_LONG).show();
+                ProfileFragment.loadPost(getContext());
+                HomeFragment.loadPost(getContext());
                 getFragmentManager().popBackStack();
             }
 
             @Override
             public void onFailure(Call<ResponseDTO> call, Throwable t) {
                 progressDialog.dismiss();
-                Toast.makeText(getActivity(),"Đăng thất bại"+t.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(),"Chỉnh sửa thất bại"+t.getMessage(),Toast.LENGTH_LONG).show();
             }
         });
     }

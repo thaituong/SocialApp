@@ -85,6 +85,7 @@ public class FProfileFragment extends Fragment {
         idProfile = (String) bundleReceive.get("idprofile");
         if(idProfile.equalsIgnoreCase(MainActivity.userID)){
             btFollow.setVisibility(View.GONE);
+            btMessage.setVisibility(View.GONE);
         }
         loadUserInfo();
         loadPost();
@@ -141,6 +142,7 @@ public class FProfileFragment extends Fragment {
                         conversationDetailDTO.setUSER_CONVERSATIONs(list);
                         conversationDTO.setCONVERSATION(conversationDetailDTO);
                         mMainActivity.goToConversationFragment(conversationDTO);
+                        MessageFragment.loadMessage(getContext());
                     }
 
                     @Override

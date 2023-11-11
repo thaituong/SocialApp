@@ -74,23 +74,7 @@
                     android:textColor="#000"
                     android:textSize="16sp"
                     android:layout_marginTop="5dp"></TextView>
-                <Button
-                    android:id="@+id/btMessage"
-                    android:layout_marginLeft="20dp"
-                    android:layout_width="100dp"
-                    android:layout_height="35dp"
-                    android:text="Message"
-                    android:background="@drawable/buttonbrblue"></Button>
-                <Button
-                    android:id="@+id/btFollow"
-                    android:layout_marginLeft="10dp"
-                    android:layout_width="100dp"
-                    android:layout_height="35dp"
-                    android:text="Flower"
-                    android:background="@drawable/buttonbrblue"></Button>
             </LinearLayout>
-
-
             <LinearLayout
                 android:id="@+id/llPost"
                 android:layout_width="wrap_content"
@@ -167,9 +151,34 @@
                     android:textColor="#000"></TextView>
             </LinearLayout>
         </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rlUserInfo"
+            android:id="@+id/rlButtonEdit"
+            android:padding="10dp">
+            <Button
+                android:id="@+id/btMessage"
+                android:layout_width="160dp"
+                android:layout_height="30dp"
+                android:text="Message"
+                android:textAllCaps="false"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/buttonbr"></Button>
+            <Button
+                android:id="@+id/btFollow"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="10dp"
+                android:layout_width="160dp"
+                android:layout_height="30dp"
+                android:text="Flower"
+                android:textAllCaps="false"
+                android:background="@drawable/buttonbrblue"></Button>
+
+        </RelativeLayout>
         <View
             android:id="@+id/vLine"
-            android:layout_below="@+id/rlUserInfo"
+            android:layout_below="@+id/rlButtonEdit"
             android:layout_alignParentEnd="true"
             android:layout_width="match_parent"
             android:layout_height="5dp"

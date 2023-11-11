@@ -82,17 +82,19 @@ public class SocketManager {
                         JSONObject jsonObject = new JSONObject(responseData);
                         String USER_ID = jsonObject.getString("USER_ID");
                         String POST_ID = jsonObject.getString("POST_ID");
-                        ApiService.apiService.getUserInfo(USER_ID, MainActivity.accessToken).enqueue(new Callback<ResponseDTO>() {
-                            @Override
-                            public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
-                                litsp = response.body();
-                                NotificationHelper.showNotification(context, "Bạn có thông báo mới", litsp.getResult().getUser().getFULLNAME()+" vừa thích bài viết của bạn");
-                            }
-                            @Override
-                            public void onFailure(Call<ResponseDTO> call, Throwable t) {
-                                Log.d("API Response", "Giá trị litsp: " + t.getMessage());
-                            }
-                        });
+                        if (!USER_ID.equalsIgnoreCase(MainActivity.userID)){
+                            ApiService.apiService.getUserInfo(USER_ID, MainActivity.accessToken).enqueue(new Callback<ResponseDTO>() {
+                                @Override
+                                public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
+                                    litsp = response.body();
+                                    NotificationHelper.showNotification(context, "Bạn có thông báo mới", litsp.getResult().getUser().getFULLNAME()+" vừa thích bài viết của bạn");
+                                }
+                                @Override
+                                public void onFailure(Call<ResponseDTO> call, Throwable t) {
+                                    Log.d("API Response", "Giá trị litsp: " + t.getMessage());
+                                }
+                            });
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

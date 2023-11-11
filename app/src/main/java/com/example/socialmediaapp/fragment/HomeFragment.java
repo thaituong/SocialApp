@@ -1,10 +1,14 @@
 package com.example.socialmediaapp.fragment;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -41,12 +45,12 @@ public class HomeFragment extends Fragment {
     private ArrayList<ItemStoryDTO> listitem;
     private ArrayList<String> listimg;
     private ItemAdapter mitemAdapter;
-    private MainActivity mMainActivity;
-    public PostAdapter postAdapter;
+    private static MainActivity mMainActivity;
+    public static PostAdapter postAdapter;
     private ImageView idClickTest;
-    private ResponseDTO litsp;
+    private static ResponseDTO litsp;
     public static int[] imgpos;
-    private ListView list_view_post;
+    private static ListView list_view_post;
     private ImageView ivNotification;
     public HomeFragment() {
         // Required empty public constructor
@@ -69,14 +73,59 @@ public class HomeFragment extends Fragment {
     private void setEvent() {
         createVarLoadImg();
         loadStory();
-        loadPost();
+        loadPost(getContext());
         ivNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mMainActivity.goToNotificationFragment();
             }
         });
+        list_view_post.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Object o = list_view_post.getItemAtPosition(i);
+                NewFeedDTO newFeedDTO = (NewFeedDTO) o;
+                showDeleteConfirmationDialog(newFeedDTO);
+                return false;
+            }
+        });
     }
+
+    private void showDeleteConfirmationDialog(NewFeedDTO newFeedDTO) {
+        if (newFeedDTO.getUSER().getID().equalsIgnoreCase(MainActivity.userID)){
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("Xác nhận xóa bài viết");
+            builder.setMessage("Bạn có muốn xóa mục này không?")
+                    .setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ApiService.apiService.deletePost(newFeedDTO.getID(), MainActivity.accessToken).enqueue(new Callback<ResponseDTO>() {
+                                @Override
+                                public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
+                                    ResponseDTO message=response.body();
+                                    Toast.makeText(getActivity(),"Xóa bài viết thành công",Toast.LENGTH_LONG).show();
+                                    loadPost(getContext());
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseDTO> call, Throwable t) {
+                                    Toast.makeText(getActivity(),"Xóa bài viết thất bại",Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    })
+                    .setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+    }
+
     private void createVarLoadImg() {
         imgpos=new int[100];
         for (int i = 0; i < imgpos.length; i++) {
@@ -93,12 +142,12 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
     }
 
-    private void loadPost() {
+    public static void loadPost(Context context) {
         ApiService.apiService.getListPost(MainActivity.accessToken).enqueue(new Callback<ResponseDTO>() {
             @Override
             public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
                 litsp=response.body();
-                postAdapter=new PostAdapter(getContext(), litsp.getResult().getNewFeeds(), new PostAdapter.IClickItemListener() {
+                postAdapter=new PostAdapter(context, litsp.getResult().getNewFeeds(), new PostAdapter.IClickItemListener() {
                     @Override
                     public void onClickItemUser(NewFeedDTO itemPostDTO) {
                         mMainActivity.goToCommentFragment(itemPostDTO.getID());
@@ -119,13 +168,11 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ResponseDTO> call, Throwable t) {
-                Toast.makeText(getActivity(),"Call Api Error"+t.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(mMainActivity,"Call Api Error"+t.getMessage(),Toast.LENGTH_LONG).show();
                 Log.d("API Response", "Giá trị litsp: " + t.getMessage());
             }
         });
     }
-
-
 
     private void data(){
         listitem.add(new ItemStoryDTO("Hồng ngọc",R.drawable.avtbabe));

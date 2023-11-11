@@ -301,6 +301,8 @@ public class ConversationFragment extends Fragment {
                 Toast.makeText(getActivity(), "Đã gửi ảnh", Toast.LENGTH_LONG).show();
                 ivImgSend.setVisibility(View.GONE);
                 etContent.setVisibility(View.VISIBLE);
+                ivMessSend.setVisibility(View.GONE);
+                typeImg=false;
             }
             @Override
             public void onFailure(Call<ResponseDTO> call, Throwable t) {
@@ -338,6 +340,7 @@ public class ConversationFragment extends Fragment {
             ivImgSend.setLayoutParams(params);
             etContent.setVisibility(View.GONE);
             ivImgSend.setVisibility(View.VISIBLE);
+            ivMessSend.setVisibility(View.VISIBLE);
             Glide.with(getContext()).load(selectedImageUri).into(ivImgSend);
             typeImg=true;
         }

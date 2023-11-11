@@ -48,31 +48,38 @@ public interface ApiService {
     Call<ResponseDTO> getListComment(@Path("id") String groupId, @Header("accessToken") String accessToken);
     @Multipart
     @POST("post/comment/{id}")
-    Call<ResponseDTO> postComment(@Path("id") String groupId, @Part(Const.KEY_CONTENT) RequestBody content,@Header("accessToken") String accessToken);
+    Call<ResponseDTO> postComment(@Path("id") String groupId, @Part(Const.KEY_CONTENT) RequestBody content,
+                                  @Header("accessToken") String accessToken);
 
     @Multipart
     @POST("post/comment/{id}/{idcm}")
-    Call<ResponseDTO> postRepComment(@Path("id") String groupId,@Path("idcm") String idcm, @Part(Const.KEY_CONTENT) RequestBody content,@Header("accessToken") String accessToken);
+    Call<ResponseDTO> postRepComment(@Path("id") String groupId,@Path("idcm") String idcm,
+                                     @Part(Const.KEY_CONTENT) RequestBody content,@Header("accessToken") String accessToken);
     @Multipart
     @POST("post")
-    Call<ResponseDTO> postNewFeed(@Part(Const.KEY_CAPTION) RequestBody caption, @Part List<MultipartBody.Part> file, @Header("accessToken") String accessToken);
+    Call<ResponseDTO> postNewFeed(@Part(Const.KEY_CAPTION) RequestBody caption, @Part List<MultipartBody.Part> file,
+                                  @Header("accessToken") String accessToken);
 
     @GET("messege")
     Call<ResponseDTO> getListMessage(@Header("accessToken") String accessToken);
     @Multipart
     @POST("signIn")
-    Call<ResponseDTO> postLogin(@Header("Accept") String acceptHeader,@Part(Const.KEY_EMAIL) RequestBody email,@Part(Const.KEY_PASSWORD) RequestBody password);
+    Call<ResponseDTO> postLogin(@Header("Accept") String acceptHeader,@Part(Const.KEY_EMAIL) RequestBody email,
+                                @Part(Const.KEY_PASSWORD) RequestBody password);
 
     @GET("messege/{id}")
-    Call<ResponseDTO> getListConversation(@Path("id") String groupId, @Query("page") int page, @Header("accessToken") String accessToken);
+    Call<ResponseDTO> getListConversation(@Path("id") String groupId, @Query("page") int page,
+                                          @Header("accessToken") String accessToken);
 
     @Multipart
     @POST("messege/{id}")
-    Call<ResponseDTO> postMessage(@Header("accessToken") String accessToken,@Path("id") String groupId,@Part(Const.KEY_CONTENT_TYPE) RequestBody type,@Part(Const.KEY_CONTENT) RequestBody content);
+    Call<ResponseDTO> postMessage(@Header("accessToken") String accessToken,@Path("id") String groupId,
+                                  @Part(Const.KEY_CONTENT_TYPE) RequestBody type,@Part(Const.KEY_CONTENT) RequestBody content);
 
     @Multipart
     @POST("messege/{id}")
-    Call<ResponseDTO> postMessageImg(@Header("accessToken") String accessToken,@Path("id") String groupId,@Part(Const.KEY_CONTENT_TYPE) RequestBody type,@Part MultipartBody.Part file);
+    Call<ResponseDTO> postMessageImg(@Header("accessToken") String accessToken,@Path("id") String groupId,
+                                     @Part(Const.KEY_CONTENT_TYPE) RequestBody type,@Part MultipartBody.Part file);
     @GET("user/info/{id}")
     Call<ResponseDTO> getUserInfo(@Path("id") String groupId,@Header("accessToken") String accessToken);
 
@@ -91,7 +98,9 @@ public interface ApiService {
 
     @Multipart
     @PUT("post/{id}")
-    Call<ResponseDTO> postEdit(@Path("id") String groupId,@Part(Const.KEY_CAPTION) RequestBody caption,@Part(Const.KEY_ARRDELETE) RequestBody deletedImages, @Part List<MultipartBody.Part> file, @Header("accessToken") String accessToken);
+    Call<ResponseDTO> postEdit(@Path("id") String groupId, @Part(Const.KEY_CAPTION) RequestBody caption,
+                               @Part(Const.KEY_ARRDELETE) RequestBody deletedImages, @Part List<MultipartBody.Part> file,
+                               @Header("accessToken") String accessToken);
 
     @GET("user/followers/{id}")
     Call<ResponseDTO> getFollowers(@Path("id") String groupId,@Header("accessToken") String accessToken);
@@ -116,7 +125,10 @@ public interface ApiService {
 
     @Multipart
     @PUT("user/password")
-    Call<ResponseDTO> putUserPass(@Part(Const.KEY_PASSWORD) RequestBody password,@Part(Const.KEY_NPASSWORD) RequestBody n_password,@Part(Const.KEY_REPASSWORD) RequestBody re_password, @Header("accessToken") String accessToken);
+    Call<ResponseDTO> putUserPass(@Part(Const.KEY_PASSWORD) RequestBody password,
+                                  @Part(Const.KEY_NPASSWORD) RequestBody n_password,
+                                  @Part(Const.KEY_REPASSWORD) RequestBody re_password,
+                                  @Header("accessToken") String accessToken);
 
     @Multipart
     @PUT("user")
@@ -124,5 +136,6 @@ public interface ApiService {
                                   @Part(Const.KEY_MOBILE) RequestBody mobile, @Part(Const.KEY_ADDRESS) RequestBody address,
                                   @Part(Const.KEY_DESCRIPTION) RequestBody description,
                                   @Part(Const.KEY_GENDER) RequestBody gender, @Header("accessToken") String accessToken);
-
+    @DELETE("post/{id}")
+    Call<ResponseDTO> deletePost(@Path("id") String groupId,@Header("accessToken") String accessToken);
 }

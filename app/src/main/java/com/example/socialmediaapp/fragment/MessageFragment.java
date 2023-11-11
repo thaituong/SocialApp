@@ -1,5 +1,6 @@
 package com.example.socialmediaapp.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,10 +23,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MessageFragment extends Fragment {
-    private MainActivity mMainActivity;
-    private ListView list_view_message;
-    private ResponseDTO litsp;
-    private MessageAdapter messageAdapter;
+    private static MainActivity mMainActivity;
+    private static ListView list_view_message;
+    private static ResponseDTO litsp;
+    private static MessageAdapter messageAdapter;
 
     public MessageFragment() {
     }
@@ -44,15 +45,15 @@ public class MessageFragment extends Fragment {
     }
 
     private void setEvent() {
-        loadMessage();
+        loadMessage(getContext());
     }
 
-    private void loadMessage() {
+    public static void loadMessage(Context context) {
         ApiService.apiService.getListMessage(MainActivity.accessToken).enqueue(new Callback<ResponseDTO>() {
             @Override
             public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
                 litsp=response.body();
-                messageAdapter=new MessageAdapter(getContext(), litsp.getResult().getConversations(), new MessageAdapter.IClickItemListener() {
+                messageAdapter=new MessageAdapter(context, litsp.getResult().getConversations(), new MessageAdapter.IClickItemListener() {
                     @Override
                     public void onClickItemUser(ConversationDTO conversationDTO) {
                         mMainActivity.goToConversationFragment(conversationDTO);
@@ -63,7 +64,7 @@ public class MessageFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ResponseDTO> call, Throwable t) {
-                Toast.makeText(getActivity(),"Call Api Error"+t.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(mMainActivity,"Call Api Error"+t.getMessage(),Toast.LENGTH_LONG).show();
                 Log.d("API Response", "Giá trị litsp: " + t.getMessage());
             }
         });
