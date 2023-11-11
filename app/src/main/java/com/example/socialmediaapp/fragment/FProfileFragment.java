@@ -20,8 +20,15 @@ import com.example.socialmediaapp.R;
 import com.example.socialmediaapp.activity.MainActivity;
 import com.example.socialmediaapp.adapter.PostAdapter;
 import com.example.socialmediaapp.api.ApiService;
+import com.example.socialmediaapp.dto.ConversationDTO;
+import com.example.socialmediaapp.dto.ConversationDetailDTO;
 import com.example.socialmediaapp.dto.NewFeedDTO;
 import com.example.socialmediaapp.dto.ResponseDTO;
+import com.example.socialmediaapp.dto.UserConversationDTO;
+import com.example.socialmediaapp.dto.UserDTO;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -38,12 +45,14 @@ public class FProfileFragment extends Fragment {
     private TextView tvSLPost;
     private TextView tvSLFlower;
     private TextView tvSLFollowing;
+    private TextView tvDanhDauLinkAVT;
     public PostAdapter postAdapter;
     private ListView list_view_post;
     private ImageView ivBackProfile;
     private LinearLayout llFollower;
     private LinearLayout llFollowing;
     private Button btFollow;
+    private Button btMessage;
     public FProfileFragment() {
         // Required empty public constructor
     }
@@ -68,6 +77,8 @@ public class FProfileFragment extends Fragment {
         llFollower = (LinearLayout) view.findViewById(R.id.llFollower);
         llFollowing = (LinearLayout) view.findViewById(R.id.llFollowing);
         btFollow = (Button) view.findViewById(R.id.btFollow);
+        btMessage = (Button) view.findViewById(R.id.btMessage);
+        tvDanhDauLinkAVT = (TextView) view.findViewById(R.id.tvDanhDauLinkAVT);
     }
     private void setEvent() {
         Bundle bundleReceive = getArguments();
@@ -112,6 +123,34 @@ public class FProfileFragment extends Fragment {
                 }
             }
         });
+
+        btMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ApiService.apiService.getConversation(idProfile,MainActivity.accessToken).enqueue(new Callback<ResponseDTO>() {
+                    @Override
+                    public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
+                        litsp=response.body();
+                        ConversationDTO conversationDTO=new ConversationDTO();
+                        ConversationDetailDTO conversationDetailDTO=new ConversationDetailDTO();
+                        conversationDetailDTO.setID(litsp.getResult().getConversation_id());
+                        UserConversationDTO userConversationDTO=new UserConversationDTO();
+                        userConversationDTO.setUSER(new UserDTO(tvUserName.getText().toString(),tvDanhDauLinkAVT.getText().toString()));
+                        List<UserConversationDTO> list=new ArrayList<>();
+                        list.add(userConversationDTO);
+                        conversationDetailDTO.setUSER_CONVERSATIONs(list);
+                        conversationDTO.setCONVERSATION(conversationDetailDTO);
+                        mMainActivity.goToConversationFragment(conversationDTO);
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseDTO> call, Throwable t) {
+                        Toast.makeText(getContext(), "Follow thất bại" + t.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
+
         // Back
         ivBackProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,6 +239,7 @@ public class FProfileFragment extends Fragment {
                 tvSLPost.setText(litsp.getResult().getUser().getPOSTS());
                 tvSLFlower.setText(litsp.getResult().getUser().getFOLLOWERS());
                 tvSLFollowing.setText(litsp.getResult().getUser().getFOLLOWING());
+                tvDanhDauLinkAVT.setText(litsp.getResult().getUser().getAVATAR());
                 if(litsp.getResult().getUser().getISFOLLOWED().trim().equalsIgnoreCase("1")){
                     btFollow.setBackgroundResource(R.drawable.buttonbr);
                     btFollow.setText("Following");

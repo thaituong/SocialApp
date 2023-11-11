@@ -111,4 +111,7 @@ public interface ApiService {
     @GET("user/notification")
     Call<ResponseDTO> getListNotification(@Header("accessToken") String accessToken);
 
+    @GET("messege/user/{id}")
+    Call<ResponseDTO> getConversation(@Path("id") String groupId,@Header("accessToken") String accessToken);
+
 }

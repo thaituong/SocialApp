@@ -8,6 +8,9 @@ public class ConversationDetailDTO implements Serializable {
     private String TITLE;
     private List<UserConversationDTO> USER_CONVERSATIONs;
 
+    public ConversationDetailDTO() {
+    }
+
     public ConversationDetailDTO(String ID, String TITLE, List<UserConversationDTO> USER_CONVERSATIONs) {
         this.ID = ID;
         this.TITLE = TITLE;

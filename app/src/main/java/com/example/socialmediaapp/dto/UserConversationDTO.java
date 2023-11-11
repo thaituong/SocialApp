@@ -6,6 +6,9 @@ public class UserConversationDTO implements Serializable {
     private String USER_ID;
     private UserDTO USER;
 
+    public UserConversationDTO() {
+    }
+
     public UserConversationDTO(String USER_ID, UserDTO USER) {
         this.USER_ID = USER_ID;
         this.USER = USER;

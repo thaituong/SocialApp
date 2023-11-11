@@ -7,6 +7,9 @@ import java.io.Serializable;
 public class ConversationDTO implements Serializable {
     private ConversationDetailDTO CONVERSATION;
 
+    public ConversationDTO() {
+    }
+
     public ConversationDTO(ConversationDetailDTO CONVERSATION) {
         this.CONVERSATION = CONVERSATION;
     }

@@ -75,8 +75,15 @@
                     android:textSize="16sp"
                     android:layout_marginTop="5dp"></TextView>
                 <Button
+                    android:id="@+id/btMessage"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
+                    android:text="Message"
+                    android:background="@drawable/buttonbrblue"></Button>
+                <Button
                     android:id="@+id/btFollow"
-                    android:layout_marginLeft="60dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_width="100dp"
                     android:layout_height="35dp"
                     android:text="Flower"
@@ -179,6 +186,11 @@
                 android:orientation="horizontal"></ListView>
         </LinearLayout>
     </RelativeLayout>
+    <TextView
+        android:id="@+id/tvDanhDauLinkAVT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"></TextView>
 
 
 </RelativeLayout>

@@ -12,8 +12,9 @@ public class ResultDTO implements Serializable {
     List<UserDTO> users;
     String token;
     UserDTO user;
+    String conversation_id;
 
-    public ResultDTO(List<NewFeedDTO> newFeeds, List<CommentDTO> comments, List<ConversationDTO> conversations, List<NotificationDTO> notifications, List<MessageDTO> messeges, List<UserDTO> users, String token, UserDTO user) {
+    public ResultDTO(List<NewFeedDTO> newFeeds, List<CommentDTO> comments, List<ConversationDTO> conversations, List<NotificationDTO> notifications, List<MessageDTO> messeges, List<UserDTO> users, String token, UserDTO user, String conversation_id) {
         this.newFeeds = newFeeds;
         this.comments = comments;
         this.conversations = conversations;
@@ -22,6 +23,15 @@ public class ResultDTO implements Serializable {
         this.users = users;
         this.token = token;
         this.user = user;
+        this.conversation_id = conversation_id;
+    }
+
+    public String getConversation_id() {
+        return conversation_id;
+    }
+
+    public void setConversation_id(String conversation_id) {
+        this.conversation_id = conversation_id;
     }
 
     public List<NotificationDTO> getNotifications() {

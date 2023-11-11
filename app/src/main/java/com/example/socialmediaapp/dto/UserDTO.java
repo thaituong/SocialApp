@@ -17,6 +17,11 @@ public class UserDTO implements Serializable {
     private String DESCRIPTION;
     private String ISFOLLOWED;
 
+    public UserDTO(String FULLNAME, String AVATAR) {
+        this.FULLNAME = FULLNAME;
+        this.AVATAR = AVATAR;
+    }
+
     public UserDTO(String ID, String USERNAME, String FULLNAME, String AVATAR, String FOLLOWING, String FOLLOWERS, String POSTS, String EMAIL, String GENDER, String MOBILE, String ADDRESS, String DESCRIPTION, String ISFOLLOWED) {
         this.ID = ID;
         this.USERNAME = USERNAME;
