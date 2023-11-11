@@ -33,10 +33,11 @@ public class FollowAdapter extends BaseAdapter {
         void onClickItemUser(UserDTO userDTO);
     }
     private Context context;
-    public FollowAdapter(Context aContext, List<UserDTO> listData) {
+    public FollowAdapter(Context aContext, List<UserDTO> listData, FollowAdapter.IClickItemListener listener) {
         this.context = aContext;
         this.listData=listData;
         layoutInflater = LayoutInflater.from(aContext);
+        this.iClickItemListener=listener;
     }
     @Override
     public int getCount() {
@@ -63,6 +64,7 @@ public class FollowAdapter extends BaseAdapter {
             holder.tvFullName = (TextView) view.findViewById(R.id.tvFullName);
             holder.civUserAvatar = (CircleImageView) view.findViewById(R.id.civUserAvatar);
             holder.btFollow=(Button) view.findViewById(R.id.btFollow);
+            holder.rlUserInfo = (RelativeLayout) view.findViewById(R.id.rlUserInfo);
 
             view.setTag(holder);
         } else {
@@ -114,6 +116,12 @@ public class FollowAdapter extends BaseAdapter {
                 }
             }
         });
+        holder.rlUserInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                iClickItemListener.onClickItemUser(userDTO);
+            }
+        });
         return view;
     }
 
@@ -122,6 +130,7 @@ public class FollowAdapter extends BaseAdapter {
         TextView tvFullName;
         CircleImageView civUserAvatar;
         Button btFollow;
+        RelativeLayout rlUserInfo;
 
     }
 }

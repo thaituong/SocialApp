@@ -37,16 +37,5 @@
                 android:textColor="#55B659"></TextView>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvMessageNoRead"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerInParent="true"
-            android:background="@drawable/text_box"
-            android:text="5"
-            android:textSize="18sp"
-            android:textAlignment="center"
-            android:textColor="@color/white"></TextView>
     </RelativeLayout>
 </LinearLayout>

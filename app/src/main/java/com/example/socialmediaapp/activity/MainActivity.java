@@ -30,6 +30,7 @@ import com.example.socialmediaapp.fragment.CommentFragment;
 import com.example.socialmediaapp.fragment.ConversationFragment;
 import com.example.socialmediaapp.fragment.HomeFragment;
 import com.example.socialmediaapp.fragment.ListFollowFragment;
+import com.example.socialmediaapp.fragment.NotificationFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import retrofit2.Call;
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView=findViewById(R.id.bottomNavigation);
         SocketManager.connect();
         SocketManager.addSocketEventListener(getBaseContext());
+        SocketManager.addSocketEventListenerNoti(getBaseContext());
         adapter=new ViewPagerAdapter(this);
         viewPager.setAdapter(adapter);
         viewPager.setUserInputEnabled(false);
@@ -184,6 +186,16 @@ public class MainActivity extends AppCompatActivity {
         listFollowFragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.mainLayout,listFollowFragment);
         fragmentTransaction.addToBackStack(ListFollowFragment.TAG);
+        fragmentTransaction.commit();
+    }
+
+    public void goToNotificationFragment(){
+        FragmentTransaction fragmentTransaction =getSupportFragmentManager().beginTransaction();
+        NotificationFragment notificationFragment=new NotificationFragment();
+        Bundle bundle=new Bundle();
+        notificationFragment.setArguments(bundle);
+        fragmentTransaction.replace(R.id.mainLayout,notificationFragment);
+        fragmentTransaction.addToBackStack(NotificationFragment.TAG);
         fragmentTransaction.commit();
     }
 

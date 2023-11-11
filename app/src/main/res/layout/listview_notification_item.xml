@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:padding="5dp">
     <RelativeLayout
-        android:id="@+id/rlItemMessage"
+        android:id="@+id/rlItemNotification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -13,46 +13,48 @@
             android:id="@+id/rlUserInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/tvNotiTime">
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/civUserAvatar"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/avtbabe"
                 android:layout_gravity="center"></de.hdodenhof.circleimageview.CircleImageView>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@+id/civUserAvatar">
+                android:layout_toRightOf="@+id/civUserAvatar"
+                android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/tvUserName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="nhn_hong_ngoc"
-                    android:textStyle="bold"
-                    android:textColor="#000"></TextView>
+                    android:text="Nguyễn Hồng Ngọc"
+                    android:textColor="#000"
+                    android:textStyle="bold"></TextView>
+
                 <TextView
-                    android:id="@+id/tvFullName"
+                    android:id="@+id/tvContent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nguyễn Hồng Ngọc"></TextView>
+                    android:text="Ngọc đã thích bài viết của ban"></TextView>
             </LinearLayout>
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/btFollow"
+        <TextView
+            android:id="@+id/tvNotiTime"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerInParent="true"
-            android:background="@drawable/btfl"
-            android:text="Follow"
-            android:textAlignment="center"
+            android:text="22.30"
             android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="18sp"></Button>
+            android:textColor="#000"></TextView>
     </RelativeLayout>
 </LinearLayout>

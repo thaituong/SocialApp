@@ -16,12 +16,14 @@ import com.example.socialmediaapp.adapter.FollowAdapter;
 import com.example.socialmediaapp.adapter.MessageAdapter;
 import com.example.socialmediaapp.dto.ConversationDTO;
 import com.example.socialmediaapp.dto.ResultDTO;
+import com.example.socialmediaapp.dto.UserDTO;
 
 public class ListFollowFragment extends Fragment {
     ResultDTO resultDTO;
     private ListView list_view_follow;
     private FollowAdapter followAdapter;
     private ImageView ivBackListFollow;
+    private MainActivity mMainActivity;
     public static final String TAG = ListFollowFragment.class.getName();
 
     public ListFollowFragment() {
@@ -40,7 +42,12 @@ public class ListFollowFragment extends Fragment {
     private void setEvent() {
         Bundle bundleReceive = getArguments();
         resultDTO = (ResultDTO) bundleReceive.get("listfollower");
-        followAdapter=new FollowAdapter(getContext(),resultDTO.getUsers());
+        followAdapter=new FollowAdapter(getContext(), resultDTO.getUsers(), new FollowAdapter.IClickItemListener() {
+            @Override
+            public void onClickItemUser(UserDTO userDTO) {
+                mMainActivity.goToFProfileFragment(userDTO.getID());
+            }
+        });
         list_view_follow.setAdapter(followAdapter);
         ivBackListFollow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +58,7 @@ public class ListFollowFragment extends Fragment {
     }
 
     private void cnView(View view) {
+        mMainActivity=(MainActivity)getActivity();
         list_view_follow=(ListView) view.findViewById(R.id.list_view_follow);
         ivBackListFollow=(ImageView) view.findViewById(R.id.ivBackListFollow);
     }

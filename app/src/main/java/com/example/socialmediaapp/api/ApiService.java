@@ -108,4 +108,7 @@ public interface ApiService {
     @GET("user/search")
     Call<ResponseDTO> getListSearch(@Query("username") String username, @Header("accessToken") String accessToken);
 
+    @GET("user/notification")
+    Call<ResponseDTO> getListNotification(@Header("accessToken") String accessToken);
+
 }

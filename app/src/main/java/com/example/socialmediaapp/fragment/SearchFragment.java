@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -21,6 +22,7 @@ import com.example.socialmediaapp.adapter.MessageAdapter;
 import com.example.socialmediaapp.api.ApiService;
 import com.example.socialmediaapp.dto.ConversationDTO;
 import com.example.socialmediaapp.dto.ResponseDTO;
+import com.example.socialmediaapp.dto.UserDTO;
 
 import java.util.ArrayList;
 
@@ -33,6 +35,7 @@ public class SearchFragment extends Fragment {
     private ListView list_view_follow;
     private FollowAdapter followAdapter;
     private ResponseDTO litsp;
+    private MainActivity mMainActivity;
 
     public SearchFragment() {
     }
@@ -46,6 +49,7 @@ public class SearchFragment extends Fragment {
         return view;
     }
     private void cnView(View view) {
+        mMainActivity=(MainActivity)getActivity();
         etSearch=(EditText) view.findViewById(R.id.etSearch);
         list_view_follow=(ListView) view.findViewById(R.id.list_view_follow);
     }
@@ -63,7 +67,13 @@ public class SearchFragment extends Fragment {
                         @Override
                         public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
                             litsp=response.body();
-                            followAdapter=new FollowAdapter(getContext(),litsp.getResult().getUsers());
+                            followAdapter=new FollowAdapter(getContext(), litsp.getResult().getUsers(), new FollowAdapter.IClickItemListener() {
+                                @Override
+                                public void onClickItemUser(UserDTO userDTO) {
+                                    Log.d("Alo", " "+userDTO.getID());
+                                    mMainActivity.goToFProfileFragment(userDTO.getID());
+                                }
+                            });
                             list_view_follow.setAdapter(followAdapter);
                         }
 
@@ -74,7 +84,12 @@ public class SearchFragment extends Fragment {
                         }
                     });
                 } else {
-                    followAdapter=new FollowAdapter(getContext(),new ArrayList<>());
+                    followAdapter=new FollowAdapter(getContext(), new ArrayList<>(), new FollowAdapter.IClickItemListener() {
+                        @Override
+                        public void onClickItemUser(UserDTO userDTO) {
+                            mMainActivity.goToFProfileFragment(userDTO.getID());
+                        }
+                    });
                     list_view_follow.setAdapter(followAdapter);
                 }
 
@@ -82,6 +97,13 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
+            }
+        });
+        list_view_follow.setClickable(true);
+        list_view_follow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d("aloo", ": "+i);
             }
         });
     }

@@ -73,7 +73,7 @@ public class HomeFragment extends Fragment {
         ivNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                mMainActivity.goToNotificationFragment();
             }
         });
     }

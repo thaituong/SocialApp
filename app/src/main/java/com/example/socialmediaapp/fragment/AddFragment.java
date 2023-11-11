@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bumptech.glide.Glide;
 import com.example.socialmediaapp.activity.MainActivity;
 import com.example.socialmediaapp.R;
 import com.example.socialmediaapp.RealPathUtil;
@@ -36,6 +38,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -47,6 +50,9 @@ public class AddFragment extends Fragment {
     private static final int MY_REQUEST_CODE = 10;
     private static final int PERMISSION_REQUEST_CODE = 123;
     private MainActivity mMainActivity;
+    private CircleImageView civUserAvatar;
+    private TextView tvUserName;
+    private ResponseDTO litsp;
     private ImageView ivAddImg;
     private EditText etContent;
     private ViewPager vpImgPost;
@@ -69,6 +75,7 @@ public class AddFragment extends Fragment {
     }
 
     private void setEvent() {
+        loadUserInfo();
         adapter = new ImagePagerAdapter(this.getContext(), imageUris);
         progressDialog=new ProgressDialog(this.getContext());
         progressDialog.setMessage("Đang đăng ...");
@@ -102,10 +109,29 @@ public class AddFragment extends Fragment {
     }
 
     private void cnView(View view) {
+        civUserAvatar=(CircleImageView) view.findViewById(R.id.civUserAvatar);
+        tvUserName=(TextView) view.findViewById(R.id.tvUserName);
         ivAddImg=(ImageView) view.findViewById(R.id.ivAddImg);
         vpImgPost=(ViewPager) view.findViewById(R.id.vpImgPost);
         etContent=(EditText) view.findViewById(R.id.etContent);
         btPost=(Button) view.findViewById(R.id.btPost);
+    }
+
+    private void loadUserInfo() {
+        ApiService.apiService.getUserInfo(MainActivity.userID, MainActivity.accessToken).enqueue(new Callback<ResponseDTO>() {
+            @Override
+            public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
+                litsp = response.body();
+                Glide.with(getContext()).load(litsp.getResult().getUser().getAVATAR()).into(civUserAvatar);
+                tvUserName.setText(litsp.getResult().getUser().getFULLNAME());
+                etContent.setHint(litsp.getResult().getUser().getUSERNAME()+" ơi, bạn đang nghĩ gì thế?");
+            }
+            @Override
+            public void onFailure(Call<ResponseDTO> call, Throwable t) {
+                Toast.makeText(getActivity(), "Call Api Error" + t.getMessage(), Toast.LENGTH_LONG).show();
+                Log.d("API Response", "Giá trị litsp: " + t.getMessage());
+            }
+        });
     }
 
     private void openImagePicker() {

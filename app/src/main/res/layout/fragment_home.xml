@@ -43,16 +43,6 @@
             android:layout_marginRight="10dp">
 
         </ImageView>
-
-        <TextView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:text="5"
-            android:background="@drawable/text_box"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="6dp"></TextView>
     </RelativeLayout>
 
     <LinearLayout
