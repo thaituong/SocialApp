@@ -114,4 +114,15 @@ public interface ApiService {
     @GET("messege/user/{id}")
     Call<ResponseDTO> getConversation(@Path("id") String groupId,@Header("accessToken") String accessToken);
 
+    @Multipart
+    @PUT("user/password")
+    Call<ResponseDTO> putUserPass(@Part(Const.KEY_PASSWORD) RequestBody password,@Part(Const.KEY_NPASSWORD) RequestBody n_password,@Part(Const.KEY_REPASSWORD) RequestBody re_password, @Header("accessToken") String accessToken);
+
+    @Multipart
+    @PUT("user")
+    Call<ResponseDTO> putUserInfo(@Part(Const.KEY_USERNAME) RequestBody username,@Part(Const.KEY_FULLNAME) RequestBody fullname,
+                                  @Part(Const.KEY_MOBILE) RequestBody mobile, @Part(Const.KEY_ADDRESS) RequestBody address,
+                                  @Part(Const.KEY_DESCRIPTION) RequestBody description,
+                                  @Part(Const.KEY_GENDER) RequestBody gender, @Header("accessToken") String accessToken);
+
 }

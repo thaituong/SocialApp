@@ -108,10 +108,70 @@ public class EditProfileFragment extends Fragment {
                 callApiPutUserAvt();
             }
         });
+        btSecurity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callApiPutUserSecurity();
+            }
+        });
+        btInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callApiPutUserInfo();
+            }
+        });
         ivBackEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getFragmentManager().popBackStack();
+            }
+        });
+    }
+
+    private void callApiPutUserInfo() {
+        String username = etUserName.getText().toString().trim();
+        RequestBody requestBodyUserName = RequestBody.create(MediaType.parse("multipart/form-data"), username);
+        String fullname = etFullName.getText().toString().trim();
+        RequestBody requestBodyFullName = RequestBody.create(MediaType.parse("multipart/form-data"), fullname);
+        String mobile = etMobile.getText().toString().trim();
+        RequestBody requestBodyMobile = RequestBody.create(MediaType.parse("multipart/form-data"), mobile);
+        String address = etAddress.getText().toString().trim();
+        RequestBody requestBodyAddress = RequestBody.create(MediaType.parse("multipart/form-data"), address);
+        String description = etDescriptions.getText().toString().trim();
+        RequestBody requestBodyDescription = RequestBody.create(MediaType.parse("multipart/form-data"), description);
+        RequestBody requestBodyGender = RequestBody.create(MediaType.parse("multipart/form-data"), "Male");
+        ApiService.apiService.putUserInfo(requestBodyUserName,requestBodyFullName,requestBodyMobile,requestBodyAddress,requestBodyDescription,requestBodyGender, MainActivity.accessToken).enqueue(new Callback<ResponseDTO>() {
+            @Override
+            public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
+                ResponseDTO message=response.body();
+                Log.d("loooooo", ": "+message.getMessage());
+                Toast.makeText(getActivity(),""+message.getStatus().trim(),Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseDTO> call, Throwable t) {
+                Toast.makeText(getActivity(),""+t.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void callApiPutUserSecurity() {
+        String password = etPassWord.getText().toString().trim();
+        RequestBody requestBodyPassword = RequestBody.create(MediaType.parse("multipart/form-data"), password);
+        String newpassword = etNewPassword.getText().toString().trim();
+        RequestBody requestBodyNewPassword = RequestBody.create(MediaType.parse("multipart/form-data"), newpassword);
+        String renewpassword = etReNewPassword.getText().toString().trim();
+        RequestBody requestBodyReNewPassword = RequestBody.create(MediaType.parse("multipart/form-data"), renewpassword);
+        ApiService.apiService.putUserPass(requestBodyPassword,requestBodyNewPassword,requestBodyReNewPassword, MainActivity.accessToken).enqueue(new Callback<ResponseDTO>() {
+            @Override
+            public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
+                ResponseDTO message=response.body();
+                Toast.makeText(getActivity(),""+message.getStatus().trim(),Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseDTO> call, Throwable t) {
+                Toast.makeText(getActivity(),""+t.getMessage(),Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -156,12 +216,12 @@ public class EditProfileFragment extends Fragment {
             @Override
             public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
                 ResponseDTO message=response.body();
-                Toast.makeText(getActivity(),"Chỉnh sửa avatar thành công",Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(),""+message.getStatus().trim(),Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onFailure(Call<ResponseDTO> call, Throwable t) {
-                Toast.makeText(getActivity(),"Chỉnh sửa avatar thất bại"+t.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(),""+t.getMessage(),Toast.LENGTH_LONG).show();
             }
         });
     }
