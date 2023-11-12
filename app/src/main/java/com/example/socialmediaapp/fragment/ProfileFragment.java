@@ -219,13 +219,14 @@ public class ProfileFragment extends Fragment {
                         mMainActivity.goToFProfileFragment(itemPostDTO.getUSER().getID());
                     }
                 });
-                list_view_post.setAdapter(postAdapter);
+                if(list_view_post != null){
+                    list_view_post.setAdapter(postAdapter);
+                }
             }
 
             @Override
             public void onFailure(Call<ResponseDTO> call, Throwable t) {
                 Toast.makeText(mMainActivity,"Call Api Error"+t.getMessage(),Toast.LENGTH_LONG).show();
-                Log.d("API Response", "Giá trị litsp: " + t.getMessage());
             }
         });
     }

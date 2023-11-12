@@ -59,13 +59,14 @@ public class MessageFragment extends Fragment {
                         mMainActivity.goToConversationFragment(conversationDTO);
                     }
                 });
-                list_view_message.setAdapter(messageAdapter);
+                if(list_view_message!= null){
+                    list_view_message.setAdapter(messageAdapter);
+                }
             }
 
             @Override
             public void onFailure(Call<ResponseDTO> call, Throwable t) {
                 Toast.makeText(mMainActivity,"Call Api Error"+t.getMessage(),Toast.LENGTH_LONG).show();
-                Log.d("API Response", "Giá trị litsp: " + t.getMessage());
             }
         });
     }

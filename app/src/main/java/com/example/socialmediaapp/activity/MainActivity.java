@@ -139,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+
     public void goToHomeFragment() {
         adapter.notifyItemChanged(0);
         viewPager.setCurrentItem(0);

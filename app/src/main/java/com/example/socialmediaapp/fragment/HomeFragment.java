@@ -163,7 +163,9 @@ public class HomeFragment extends Fragment {
                         mMainActivity.goToFProfileFragment(itemPostDTO.getUSER().getID());
                     }
                 });
-                list_view_post.setAdapter(postAdapter);
+                if(list_view_post != null){
+                    list_view_post.setAdapter(postAdapter);
+                }
             }
 
             @Override
