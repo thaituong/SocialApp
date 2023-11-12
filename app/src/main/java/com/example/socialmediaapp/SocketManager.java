@@ -59,9 +59,29 @@ public class SocketManager {
                         int IS_SEND_USER = jsonObject.getInt("IS_SEND_USER");
                         if (!SEND_USER_ID.equalsIgnoreCase(MainActivity.userID)){
                             if(TYPE.equalsIgnoreCase("text")){
-                                NotificationHelper.showNotification(context, "Bạn có tin nhắn mới", ""+CONTENT);
+                                ApiService.apiService.getUserInfo(SEND_USER_ID, MainActivity.accessToken).enqueue(new Callback<ResponseDTO>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
+                                        litsp = response.body();
+                                        NotificationHelper.showNotification(context, litsp.getResult().getUser().getFULLNAME()+" vừa nhắn tin cho bạn",CONTENT);
+                                    }
+                                    @Override
+                                    public void onFailure(Call<ResponseDTO> call, Throwable t) {
+                                        Log.d("API Response", "Giá trị litsp: " + t.getMessage());
+                                    }
+                                });
                             } else {
-                                NotificationHelper.showNotification(context, "Bạn có tin nhắn ảnh mới", "image");
+                                ApiService.apiService.getUserInfo(SEND_USER_ID, MainActivity.accessToken).enqueue(new Callback<ResponseDTO>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
+                                        litsp = response.body();
+                                        NotificationHelper.showNotification(context, litsp.getResult().getUser().getFULLNAME()+" vừa gửi hình cho bạn","image");
+                                    }
+                                    @Override
+                                    public void onFailure(Call<ResponseDTO> call, Throwable t) {
+                                        Log.d("API Response", "Giá trị litsp: " + t.getMessage());
+                                    }
+                                });
                             }
                         }
                     } catch (JSONException e) {
@@ -87,7 +107,104 @@ public class SocketManager {
                                 @Override
                                 public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
                                     litsp = response.body();
-                                    NotificationHelper.showNotification(context, "Bạn có thông báo mới", litsp.getResult().getUser().getFULLNAME()+" vừa thích bài viết của bạn");
+                                    NotificationHelper.showNotification(context, litsp.getResult().getUser().getFULLNAME()+" vừa thích bài viết","❤️️");
+                                }
+                                @Override
+                                public void onFailure(Call<ResponseDTO> call, Throwable t) {
+                                    Log.d("API Response", "Giá trị litsp: " + t.getMessage());
+                                }
+                            });
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+    public static void addSocketEventListenerComment(Context context) {
+        addEventListener("comment", new Emitter.Listener() {
+            @Override
+            public void call(final Object... args) {
+                if (args.length > 0) {
+                    try {
+                        String responseData = args[0].toString();
+                        JSONObject jsonObject = new JSONObject(responseData);
+                        String ID = jsonObject.getString("ID");
+                        String CREATED_BY = jsonObject.getString("CREATED_BY");
+                        String POST_ID = jsonObject.getString("POST_ID");
+                        String CONTENT = jsonObject.getString("CONTENT");
+                        if (!CREATED_BY.equalsIgnoreCase(MainActivity.userID)){
+                            ApiService.apiService.getUserInfo(CREATED_BY, MainActivity.accessToken).enqueue(new Callback<ResponseDTO>() {
+                                @Override
+                                public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
+                                    litsp = response.body();
+                                    NotificationHelper.showNotification(context, litsp.getResult().getUser().getFULLNAME()+" vừa bình luận về bài viết",CONTENT);
+                                }
+                                @Override
+                                public void onFailure(Call<ResponseDTO> call, Throwable t) {
+                                    Log.d("API Response", "Giá trị litsp: " + t.getMessage());
+                                }
+                            });
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+    public static void addSocketEventListenerRComment(Context context) {
+        addEventListener("r_comment", new Emitter.Listener() {
+            @Override
+            public void call(final Object... args) {
+                if (args.length > 0) {
+                    try {
+                        String responseData = args[0].toString();
+                        JSONObject jsonObject = new JSONObject(responseData);
+                        String ID = jsonObject.getString("ID");
+                        String CREATED_BY = jsonObject.getString("CREATED_BY");
+                        String POST_ID = jsonObject.getString("POST_ID");
+                        String CONTENT = jsonObject.getString("CONTENT");
+                        String COMMENT_REPLIED_TO = jsonObject.getString("COMMENT_REPLIED_TO");
+                        if (!CREATED_BY.equalsIgnoreCase(MainActivity.userID)){
+                            ApiService.apiService.getUserInfo(CREATED_BY, MainActivity.accessToken).enqueue(new Callback<ResponseDTO>() {
+                                @Override
+                                public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
+                                    litsp = response.body();
+                                    NotificationHelper.showNotification(context, litsp.getResult().getUser().getFULLNAME()+" vừa trả lời bình luận của bạn",CONTENT);
+                                }
+                                @Override
+                                public void onFailure(Call<ResponseDTO> call, Throwable t) {
+                                    Log.d("API Response", "Giá trị litsp: " + t.getMessage());
+                                }
+                            });
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+    public static void addSocketEventListenerFollow(Context context) {
+        addEventListener("follow", new Emitter.Listener() {
+            @Override
+            public void call(final Object... args) {
+                if (args.length > 0) {
+                    try {
+                        String responseData = args[0].toString();
+                        JSONObject jsonObject = new JSONObject(responseData);
+                        String USER_ID = jsonObject.getString("USER_ID");
+                        if (!USER_ID.equalsIgnoreCase(MainActivity.userID)){
+                            ApiService.apiService.getUserInfo(USER_ID, MainActivity.accessToken).enqueue(new Callback<ResponseDTO>() {
+                                @Override
+                                public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
+                                    litsp = response.body();
+                                    NotificationHelper.showNotification(context, litsp.getResult().getUser().getFULLNAME()+" vừa theo dõi bạn","\uD83E\uDD1D");
                                 }
                                 @Override
                                 public void onFailure(Call<ResponseDTO> call, Throwable t) {

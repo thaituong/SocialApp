@@ -147,12 +147,17 @@
                 android:textAllCaps="false"
                 android:layout_marginLeft="10dp"></Button>
             <Button
+                android:id="@+id/btLogout"
                 android:background="@drawable/buttonbr"
                 android:layout_alignParentEnd="true"
                 android:layout_width="160dp"
                 android:layout_height="30dp"
-                android:text="Share profile"
+                android:text="Log out"
                 android:textAllCaps="false"
+                android:paddingLeft="8dp"
+                android:drawableLeft="@android:drawable/ic_lock_power_off"
+                android:textAlignment="center"
+                android:drawablePadding="-20dp"
                 android:layout_marginRight="10dp"></Button>
 
         </RelativeLayout>

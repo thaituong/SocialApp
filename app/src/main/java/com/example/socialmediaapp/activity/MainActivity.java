@@ -59,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
         SocketManager.connect();
         SocketManager.addSocketEventListener(getBaseContext());
         SocketManager.addSocketEventListenerNoti(getBaseContext());
+        SocketManager.addSocketEventListenerComment(getBaseContext());
+        SocketManager.addSocketEventListenerRComment(getBaseContext());
+        SocketManager.addSocketEventListenerFollow(getBaseContext());
         adapter=new ViewPagerAdapter(this);
         viewPager.setAdapter(adapter);
         viewPager.setUserInputEnabled(false);

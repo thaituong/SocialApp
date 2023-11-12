@@ -95,6 +95,9 @@ public class NotificationAdapter extends BaseAdapter {
         } else if (notificationDTO.getTYPE().equalsIgnoreCase("comment")){
             holder.tvContent.setText(notificationDTO.getUSER().getUSERNAME()+" đã bình luận về bài viết của bạn");
             holder.rlItemNotification.setBackgroundColor(0x80BBDEFB);
+        } else if (notificationDTO.getTYPE().equalsIgnoreCase("r_comment")){
+            holder.tvContent.setText(notificationDTO.getUSER().getUSERNAME()+" đã trả lời bình luận của bạn");
+            holder.rlItemNotification.setBackgroundColor(0x80B0E0F0);
         } else {
             holder.tvContent.setText(notificationDTO.getUSER().getUSERNAME()+" đã follow bạn");
             holder.rlItemNotification.setBackgroundColor(0x80C8E6C9);
